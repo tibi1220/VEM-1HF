@@ -1,0 +1,51 @@
+\documentclass[12pt]{standalone}
+
+\input{config/gateway}
+\input{config/math}
+\input{config/tikz}
+
+\begin{document}
+\begin{tikzpicture}[
+    scale=10, thick,
+    bgf/.style={
+        inner sep=0em,
+        outer sep=0em,
+        fill=white
+      },
+  ]
+  % General Settings
+  \def\l{1.5mm}
+
+  % Coordinates
+  \coordinate (o) at (0,0);
+  \coordinate (a) at (\lv{a}*1.5,0);
+  \coordinate (b) at (\lv{b}*1.5,0);
+  \coordinate (c) at (\lv{c}*1.5,0);
+
+  % Coordinate system
+  \draw[to-to, draw=cyan!40!black, very thick]
+  (0,1.2mm) node[below left] {$y$}
+  |- ($(c)+(1.2mm,0)$) node[below left] {$x$};
+
+  \draw
+  node[joint] (O) at (o) {1}
+  node[joint] (A) at (a) {2}
+  node[joint] (B) at (b) {3}
+  node[joint] (C) at (c) {4}
+  ;
+
+  \foreach \b/\e/\l in {O/A/1,A/B/2,B/C/3}
+  \draw[ultra thick] (\b) -- (\e) node[midway, above, rod] {\l};
+
+  \begin{scope}[on background layer]
+    \draw[dashed, gray, thick] (o) -- ++(0,-1.65mm);
+    \draw[dashed, gray, thick] (a) -- ++(0,-0.75mm);
+    \draw[dashed, gray, thick] (b) -- ++(0,-1.15mm);
+    \draw[dashed, gray, thick] (c) -- ++(0,-1.65mm);
+
+    \draw[dim] ($(o)-(0,0.69mm)$) -- ++($(a)-(o)$) node[midway, fill=white] {$a$};
+    \draw[dim] ($(o)-(0,1.11mm)$) -- ++($(b)-(o)$) node[midway, fill=white] {$b$};
+    \draw[dim] ($(o)-(0,1.53mm)$) -- ++($(c)-(o)$) node[midway, fill=white] {$c$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,11 +1,127 @@
-\documentclass{standalone}
+\documentclass[12pt]{standalone}
 
 \input{config/gateway}
 \input{config/math}
 \input{config/tikz}
 
 \begin{document}
-\begin{tikzpicture}
-  \draw (1,1) -- (2,2);
+\begin{tikzpicture}[scale=10, thick]
+  % General Settings
+  \def\l{1.5mm}
+  \pgfdeclarelayer{lb2} % Layer back 2
+  \pgfdeclarelayer{lb1} % Layer back 1
+  \pgfdeclarelayer{lf1} % Layer front 1
+  \pgfdeclarelayer{lf2} % Layer front 2
+  \pgfsetlayers{lb2,lb1,main,lf1,lf2}
+
+  % Coordinates
+  \coordinate (o) at (0,0);
+  \coordinate (a) at (\lv{a},0);
+  \coordinate (b) at (\lv{b},0);
+  \coordinate (c) at (\lv{c},0);
+
+  \begin{pgfonlayer}{lb1}
+    % Draw coord system
+    \draw[to-to, draw=cyan!40!black, very thick]
+    (0,2.2mm) node[below left] {$y$}
+    |- ($(c)+(1.2mm,0)$) node[below left] {$x$};
+
+    % Draw (p_t)
+    \draw[fill=yellow!10, draw=yellow!40!black, ultra thick]
+    (\dv{P.p_t.b}) -- ++(0,1.1mm) -| (\dv{P.p_t.e});
+  \end{pgfonlayer}
+
+  \begin{scope}[fill opacity=.8, very thick]
+    % Thin rod
+    \draw[fill=cyan!20]
+    ($(\dv{P.thin.b})+(0,.1mm*\dv{P.thin.d})$)
+    rectangle
+    ($(\dv{P.thin.e})-(0,.1mm*\dv{P.thin.d})$)
+    ;
+
+    % Thick rod
+    \draw[fill=cyan!20]
+    ($(\dv{P.thick.b})+(0,.1mm*\dv{P.thick.d})$)
+    rectangle
+    ($(\dv{P.thick.e})-(0,.1mm*\dv{P.thick.d})$)
+    ;
+  \end{scope}
+
+
+  % Draw Force (F_t)
+  \draw[{Latex[round]}-, draw=red!40!gray, ultra thick]
+  (\dv{P.F_t}) -- ++(0,\l) node[midway, right, black] {$F_t$};
+
+  % Draw Torque (M_t)
+  \coordinate (M) at (\dv{P.M_t});
+  \coordinate (M1) at ($(M)+(310:.9mm)$);
+  \coordinate (M2) at ($(M)+(210:.9mm)$);
+  \draw pic[
+  draw=red!40!gray, -{Latex[round]}, ultra thick,
+  angle radius=8mm, angle eccentricity=1.25,
+  ]
+  {angle=M1--M--M2};
+  % \begin{noindent}
+  \begin{luacode*}
+    if P.code == 2 then
+      tex.sprint [[ \node[right] at ($(M)+(30:.9mm)$) {$M_t$}; ]]
+    else
+      tex.sprint [[ \node[left] at (M2) {$M_t$}; ]]
+    end
+  \end{luacode*}
+  % \end{noindent}
+
+  % p_t label
+  \draw[{Latex[round]}-, ultra thick, draw=yellow!40!black]
+  ($(\dv{P.p_t.b})+(.3mm,.2mm+\dv{P.p_t.s}*.05mm)$) -- ++(0,.65mm)
+  node[midway, right=1.5mm, fill=yellow!10, inner sep=.5mm, fill opacity=.8] {$p_t$}
+  node[midway, right=1.5mm,inner sep=.5mm] {$p_t$};
+
+  % Draw dims
+  \begin{pgfonlayer}{lb1}
+    \draw[dashed, gray, thick] (o) -- ++(0,-2.05mm);
+    \draw[dashed, gray, thick] (a) -- ++(0,-1.15mm);
+    \draw[dashed, gray, thick] (b) -- ++(0,-1.65mm);
+    \draw[dashed, gray, thick] (c) -- ++(0,-2.05mm);
+
+    \draw[dim] ($(o)-(0,1.11mm)$) -- ++($(a)-(o)$) node[midway, fill=white] {$a$};
+    \draw[dim] ($(o)-(0,1.53mm)$) -- ++($(b)-(o)$) node[midway, fill=white] {$b$};
+    \draw[dim] ($(o)-(0,1.95mm)$) -- ++($(c)-(o)$) node[midway, fill=white] {$c$};
+  \end{pgfonlayer}
+
+  \draw[|-|, ultra thick] ($(c)+(0mm,2.2mm)$) -- ++(-1mm,0) node[midway, below] {$0{,}1\,\mathrm m$};
+
+  % Draw pivot triangles and walls
+  % \begin{noindent}
+  \begin{luacode*}
+    for key, value in pairs(P.connections) do
+      local location = value.l
+      tex.sprint([[\coordinate (h) at (]] .. location .. [[);]])
+      if value.dof == 1 then
+        tex.sprint [[
+          \node [gdot=4pt] (S) at ($(h)-(0,.6mm)$) {};
+          \draw [very thick, fill=white, fill opacity=.8] ($(S.north)+(.28mm,0)$) -- (h) -- ($(S.north)-(.28mm,0)$) -- cycle;
+          \fill[white, opacity=.8] ($(S.south)-(.45mm,0)$) rectangle ++(.9mm,-.15mm);
+          \fill[pattern=north east lines] ($(S.south)-(.45mm,0)$) rectangle ++(.9mm,-.15mm);
+          \draw[very thick] ($(S.south)-(.45mm,0)$) -- ++(.9mm,0);
+        ]]
+      elseif value.dof == 2 then
+        tex.sprint [[
+          \coordinate (S) at ($(h)-(0,.475mm)$);
+          \draw [very thick, fill=white, fill opacity=.8] ($(S.north)+(.28mm,0)$) -- (h) -- ($(S.north)-(.28mm,0)$) -- cycle;
+          \fill[white, opacity=.8] ($(S.south)-(.45mm,0)$) rectangle ++(.9mm,-.15mm);
+          \fill[pattern=north east lines] ($(S.south)-(.45mm,0)$) rectangle ++(.9mm,-.15mm);
+          \draw[very thick] ($(S.south)-(.45mm,0)$) -- ++(.9mm,0);
+        ]]
+      elseif value.dof == 3 then
+        tex.sprint [[
+          \fill[white, opacity=.8] ($(h)+(0,1.25mm)$) rectangle ++(.2mm,-2.5mm);
+          \fill[pattern=north east lines] ($(h)+(0,1.25mm)$) rectangle ++(.2mm,-2.5mm);
+          \draw[very thick] ($(h)+(0,1.25mm)$) -- ++(0,-2.5mm);
+        ]]
+      end
+    end
+  \end{luacode*}
+  % \end{noindent}
 \end{tikzpicture}
 \end{document}

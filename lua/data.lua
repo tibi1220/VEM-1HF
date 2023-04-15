@@ -1,49 +1,73 @@
 local data = {
   figure = {
     {
+      code = 1,
       thin = { b = 'o', e = 'a', d = 1, E = 4 },
       thick = { b = 'a', e = 'c', d = 2, E = 1 },
       F_t = 'b',
       M_t = 'a',
-      p_t = { b = 'o', e = 'b' },
+      p_t = { b = 'o', e = 'b', s = 1, l = 'l' },
       connections = {
         { l = 'a', o = 's', dof = 1 },
         { l = 'c', o = 'e', dof = 3 },
       },
+      beams = {
+        { number = 1, value = 1 },
+        { number = 2, value = 2 },
+        { number = 3, value = 2 },
+      },
     },
     {
+      code = 2,
       thin = { b = 'b', e = 'c', d = 1, E = 4 },
       thick = { b = 'o', e = 'b', d = 2, E = 1 },
       F_t = 'o',
       M_t = 'b',
-      p_t = { b = 'a', e = 'c' },
+      p_t = { b = 'a', e = 'c', s = 2, l = 'l' },
       connections = {
         { l = 'a', o = 's', dof = 1 },
         { l = 'c', o = 'e', dof = 3 },
       },
+      beams = {
+        { number = 1, value = 2 },
+        { number = 2, value = 2 },
+        { number = 3, value = 1 },
+      },
     },
     {
+      code = 3,
       thin = { b = 'o', e = 'b', d = 1, E = 4 },
       thick = { b = 'b', e = 'c', d = 2, E = 1 },
       F_t = 'b',
       M_t = 'a',
-      p_t = { b = 'a', e = 'c' },
+      p_t = { b = 'a', e = 'c', s = 1, l = 'r' },
       connections = {
         { l = 'o', o = 's', dof = 2 },
         { l = 'a', o = 's', dof = 1 },
         { l = 'c', o = 's', dof = 1 },
       },
+      beams = {
+        { number = 1, value = 1 },
+        { number = 2, value = 1 },
+        { number = 3, value = 2 },
+      },
     },
     {
+      code = 4,
       thin = { b = 'a', e = 'c', d = 1, E = 4 },
       thick = { b = 'o', e = 'a', d = 2, E = 1 },
       F_t = 'a',
       M_t = 'b',
-      p_t = { b = 'o', e = 'b' },
+      p_t = { b = 'o', e = 'b', s = 2, l = 'l' },
       connections = {
         { l = 'o', o = 's', dof = 2 },
         { l = 'b', o = 's', dof = 1 },
         { l = 'c', o = 's', dof = 1 },
+      },
+      beams = {
+        { number = 1, value = 2 },
+        { number = 2, value = 1 },
+        { number = 3, value = 1 },
       },
     },
   },
@@ -101,9 +125,11 @@ return function(code)
       end
     end,
 
+    parametric = data.figure[code[1]],
+
     -- B
-    E = data.E[code[2]],
-    d = data.d[code[2]],
+    E = data.E[code[2]] * 1e9,
+    d = data.d[code[2]] / 1000,
 
     -- C
     a = data.a[code[3]] / 1000,
@@ -113,8 +139,8 @@ return function(code)
 
     -- D
     p_t = data.p_t[code[4]],
-    F_t = data.F_t[code[4]],
-    M_t = data.M_t[code[4]],
+    F_t = data.F_t[code[4]] * 1000,
+    M_t = data.M_t[code[4]] * 1000,
 
     -- Code information
     code = code,

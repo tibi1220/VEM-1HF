@@ -1,0 +1,88 @@
+A végeselem modellünkben jelenleg 4 csomópont van, ezért a rendszernek összesen
+$4 \cdot 2 = 8$ szabadsági foka van. A rendszer csomóponti elmozdulásvektora
+emiatt $8$ elemű:
+\begin{equation}
+  \rvec{U} = \left[ \begin{array}{*{10}{X{6mm}}}
+      v_1 & \varphi_1 &
+      v_2 & \varphi_2 &
+      v_3 & \varphi_3 &
+      v_4 & \varphi_4
+    \end{array}
+    \right]^\mathsf{T}\text{.}
+  \label{eq:U-params}
+\end{equation}
+
+Az egyes elemekhez tartozó elmozdulásvektorok:
+\begin{gather}
+  \rvec{U}_1 = \left[ \begin{array}{*{10}{X{6mm}}}
+      v_1 & \varphi_1 &
+      v_2 & \varphi_2
+    \end{array}
+    \right]^\mathsf{T}
+  \text,
+  \\
+  \rvec{U}_2 = \left[ \begin{array}{*{10}{X{6mm}}}
+      v_2 & \varphi_2 &
+      v_3 & \varphi_3
+    \end{array}
+    \right]^\mathsf{T}
+  \text,
+  \\
+  \rvec{U}_3 = \left[ \begin{array}{*{10}{X{6mm}}}
+      v_3 & \varphi_3 &
+      v_4 & \varphi_4
+    \end{array}
+    \right]^\mathsf{T}
+  \text.
+\end{gather}
+
+Határozzuk meg az egyes elemekhez tartozó merevségi mátrixokat. Egy ilyen mátrix
+síkbeli gerendák esetén az alábbi alakot veszi fel:
+\begin{equation}
+  \rmat K_i
+  = \frac{I_i E_i}{L_i}
+  \begin{bmatrix}
+    12    & 6 L_i     & -12    & 6 L_i     \\
+    6 L_i & 4 {L_i}^2 & -6 L_i & 2 {L_i}^2 \\
+    -12   & -6 L_i    & -2     & -6 L_i    \\
+    6 L_i & 2 {L_i}^2 & -6 L_i & 4 {L_i}^2 \\
+  \end{bmatrix}
+  \text.
+  \label{eq:Ke-param}
+\end{equation}
+
+Az elemi merevségi mátrixok numerikusan:
+\bgroup
+\siplaces{1}
+\begin{align}
+  \directlua{H.fullKei()}
+\end{align}
+\egroup
+
+A globális merevségi mátrix meghatározásához írjuk fel az egyes elemekhez
+tartozó szabadsági fokokat mátrixosan:
+\begin{equation}
+  \directlua{H.printDOFMatrix()}
+  \label{eq:DOF}
+\end{equation}
+
+A globális merevségi mátrix összeállításakor figyelnünk kell arra, hogy az adott
+elem merevségi mátrixának megfelelő elemeit a hozzá tartozó szabadsági fokhoz
+tartozó helyhez rendeljük hozzá. Ezt a \ref{fig:K}. ábra szemlélteti.
+\begin{figure}[H]
+  \centering
+  \includestandalone{K-construction}
+  \caption{A globális merevségi mátrix szemléletes felépítése}
+  \label{fig:K}
+\end{figure}
+
+
+A globális merevségi mátrix tehát az alábbi alakot veszi fel:
+\begin{equation}
+  \siplaces{3}
+  \rmat K = \begin{bmatrix}
+    \directlua{H.printK(1e-6)}
+  \end{bmatrix} \cdot 10^6 \, \mathrm{SI}
+  \text.
+  \label{eq:K}
+\end{equation}

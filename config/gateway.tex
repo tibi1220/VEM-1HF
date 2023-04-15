@@ -8,6 +8,7 @@
       neptun = 'C7XUDE',
       code = { 1, 1, 3, 2 },
     }
+  P = V.parametric
 
   local getHelper = require 'lua.tex-helper'
   H = getHelper {
@@ -17,5 +18,10 @@
 
 % For optional param usage
 \usepackage{xargs}
+% table access, no pretty print
 \newcommand{\lv}[1]{\directlua{H.printVar [[#1]]}}
-\newcommand{\lvec}[2]{\directlua{H.printVec { name="#1", index=#2 } }}
+\newcommand{\lvec}[2]{\directlua{H.printVec { name="#1", index=#2 }}}
+% table access, pretty print with <siunitx>
+\newcommandx{\silv}[3][3=]{\directlua{H.printSIVar { name="#1", unit="#2", dec="#3" }}}
+% raw access, no pretty print
+\newcommand{\dv}[1]{\directlua{H.printDirect(#1)}}

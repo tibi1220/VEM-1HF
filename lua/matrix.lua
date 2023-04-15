@@ -196,4 +196,6 @@ M.multiplyMatrices = function(matrix1, matrix2)
   return result
 end
 
+M.zeros = zeros
+
 return M
