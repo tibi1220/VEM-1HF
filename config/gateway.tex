@@ -1,0 +1,21 @@
+% Link between TeX and lua files
+\usepackage{luacode}
+
+\begin{luacode}
+  local getVariables = require 'lua.calc'
+  V = getVariables {
+      name = 'Sándor Tibor',
+      neptun = 'C7XUDE',
+      code = { 1, 1, 3, 2 },
+    }
+
+  local getHelper = require 'lua.tex-helper'
+  H = getHelper {
+      variables = V
+    }
+\end{luacode}
+
+% For optional param usage
+\usepackage{xargs}
+\newcommand{\lv}[1]{\directlua{H.printVar [[#1]]}}
+\newcommand{\lvec}[2]{\directlua{H.printVec { name="#1", index=#2 } }}

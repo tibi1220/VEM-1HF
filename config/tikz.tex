@@ -1,0 +1,55 @@
+\usepackage{tikz}
+\usetikzlibrary{
+  calc,
+  angles,
+  quotes,
+  backgrounds,
+  patterns,
+  arrows,
+  arrows.meta,
+  positioning,
+  intersections,
+  shapes.geometric,
+}
+
+\tikzset{
+  dot/.style = {
+      circle,
+      fill=red!80!gray,
+      minimum size=#1,
+      draw=black,
+      inner sep=0pt, outer sep=0pt,
+      ultra thick,
+    },
+  dot/.default = 7pt,
+  gdot/.style = {
+      dot,
+      fill=white
+    },
+  dim/.style = {
+      latex-latex,
+      draw=teal,
+      ultra thick
+    },
+  joint/.style = {
+      circle,
+      draw=black,
+      ultra thick,
+      fill=cyan!20,
+      minimum size=4mm,
+    },
+  square/.style = {
+      regular polygon,
+      regular polygon sides=4
+    },
+  rod/.style = {
+      rectangle,
+      draw=black,
+      minimum height=6mm,
+      minimum width=6mm,
+      fill=yellow!10,
+      ultra thick,
+      midway,
+      outer sep=0,
+    },
+}

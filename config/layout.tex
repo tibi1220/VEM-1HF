@@ -1,0 +1,29 @@
+% Figure and other imports
+\usepackage{pdfpages}
+\usepackage{standalone}
+
+% Actual page layout
+\usepackage[
+  margin=20mm,
+  footskip=12mm,
+  headheight=20mm,
+  % showframe
+]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\pagestyle{fancy}
+
+\renewcommand\footrulewidth{1mm}
+\renewcommand\headrulewidth{1mm}
+
+\setlength\parindent{0em}
+\setlength\parskip{.67em}
+
+\fancyfoot[C]{\thepage\ / \pageref{LastPage}}
+\fancyhead[L]{BMEGEMMBXVE, 1. Házi Feladat}
+\fancyhead[R]{%
+  \includegraphics[height = 12px]{static/signature.pdf}
+  \lv{name},
+  \lv{neptun}
+}

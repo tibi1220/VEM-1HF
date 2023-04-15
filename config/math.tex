@@ -1,0 +1,32 @@
+% Math related stuff goes here
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+
+% Set font to my liking
+\setmainfont{TeX Gyre Termes}
+\setsansfont[Scale=MatchUppercase]{TeX Gyre Heros}
+\setmathfont{Asana Math}
+
+% Variable printing according to Hungarian standards
+\usepackage{icomma}
+\usepackage{siunitx}
+\sisetup{
+  per-mode = symbol,
+  locale=DE
+}
+
+% Math custom commands
+\newcommand\iu{\mathbf{j}}
+\newcommand{\rvec}[1]{\mathbfit{#1}}
+\newcommand{\uvec}[1]{\widehat{\mathbfit{#1}}}
+\newcommand{\rmat}[1]{\mathbf{#1}}
+
+% Operator like commands
+\DeclareMathOperator\atann{atan2}
+
+% Switching between SI modes
+\newcommand{\sifigures}[1]{\sisetup{exponent-mode = fixed, round-mode=figures, round-precision=#1}}
+\newcommand{\siplaces}[1]{\sisetup{exponent-mode = fixed, round-mode=places, round-precision=#1}}
+\newcommand{\sisci}{\sisetup{exponent-mode = scientific}}
