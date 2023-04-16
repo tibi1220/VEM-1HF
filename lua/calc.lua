@@ -179,12 +179,12 @@ return function(config)
   -- Add p
   for i = 1, 3 do
     t = figure.forces.p[i]
-    local q = t * p_t * LMat[i] / 2
+    local q = t * p_t * LMat[i] / 2 * D.code[5]
 
-    F[i * 2 - 1][1] = F[i * 2 - 1][1] + q
-    F[i * 2 + 0][1] = F[i * 2 + 0][1] + q * LMat[i] / 6
-    F[i * 2 + 1][1] = F[i * 2 + 1][1] + q
-    F[i * 2 + 2][1] = F[i * 2 + 2][1] - q * LMat[i] / 6
+    F[i * 2 - 1][1] = F[i * 2 - 1][1] - q
+    F[i * 2 + 0][1] = F[i * 2 + 0][1] - q * LMat[i] / 6
+    F[i * 2 + 1][1] = F[i * 2 + 1][1] - q
+    F[i * 2 + 2][1] = F[i * 2 + 2][1] + q * LMat[i] / 6
   end
 
   -- Globalis elmozdulas
@@ -352,8 +352,8 @@ return function(config)
         + a * F_2
         + b * F_3
         + p_1 * l_1 * l_1 / 2
-        + p_2 * l_2 * (l_1 + l_2 / 2)
-        + p_3 * l_3 * (l_1 + l_2 + l_3 / 3),
+        + p_2 * l_2 * (a + l_2 / 2)
+        + p_3 * l_3 * (b + l_3 / 2),
     }, -- 2
     {
       rIE1 * (F_1 * a ^ 2 / 2 + p_1 * a ^ 3 / 6)
@@ -423,8 +423,8 @@ return function(config)
       [4] = rIE3 * (-p_3 / 24),
       [3] = rIE3 * (-F_C / 6 + c * p_3 / 6),
       [2] = rIE3 * (M_C / 2 + F_C * c / 2 + c ^ 2 * p_3 / 4),
-      [1] = rIE1 * C_31,
-      [0] = rIE1 * C_32,
+      [1] = rIE3 * C_31,
+      [0] = rIE3 * C_32,
     },
   }
 

@@ -156,7 +156,7 @@ return function(t)
           tex.sprint(
             [[+ \begin{bmatrix}]]
               .. string.rep('0 \\\\', 2 * i)
-              .. [[ p_t (L/2) \\ p_t (L^2/12) \\ p_t (L/2) \\ p_t (L^2/12) ]]
+              .. [[ -p_t (L/2) \\ -p_t (L^2/12) \\ -p_t (L/2) \\ p_t (L^2/12) ]]
               .. string.rep('\\\\ 0', 2 * (2 - i))
               .. [[\end{bmatrix}]]
           )
