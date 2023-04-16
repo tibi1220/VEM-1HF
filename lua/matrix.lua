@@ -196,6 +196,150 @@ M.multiplyMatrices = function(matrix1, matrix2)
   return result
 end
 
+-- Helper function to calculate the sign of a cofactor
+local function cofactorSign(i)
+  return i % 2 == 0 and -1 or 1
+end
+
+-- Helper function to get the submatrix of a matrix by removing a row and column
+local function submatrix(matrix, row, col)
+  local sub = {}
+  for i = 1, #matrix do
+    if i ~= row then
+      local rowValues = {}
+      for j = 1, #matrix[i] do
+        if j ~= col then
+          table.insert(rowValues, matrix[i][j])
+        end
+      end
+      table.insert(sub, rowValues)
+    end
+  end
+  return sub
+end
+
+M.determinant = function(matrix)
+  -- Get the number of rows and columns in the matrix
+  local numRows = #matrix
+  local numCols = #matrix[1]
+
+  -- Check if the matrix is square
+  if numRows ~= numCols then
+    print 'Error: Matrix is not square'
+    return nil
+  end
+
+  -- Base case: 2x2 matrix
+  if numRows == 2 and numCols == 2 then
+    return matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]
+  end
+
+  -- Initialize determinant value
+  local det = 0
+
+  -- Laplace expansion
+  for i = 1, numRows do
+    local cofactor = matrix[1][i]
+      * cofactorSign(i)
+      * M.determinant(submatrix(matrix, 1, i))
+    det = det + cofactor
+  end
+
+  return det
+end
+
+-- Function to multiply a matrix with a scalar
+M.multiplyMatrixWithScalar = function(matrix, scalar)
+  -- Create a new matrix to store the result
+  local result = {}
+
+  -- Iterate through each row in the matrix
+  for i = 1, #matrix do
+    local row = {}
+    -- Iterate through each element in the row
+    for j = 1, #matrix[i] do
+      -- Multiply the element with the scalar
+      local product = matrix[i][j] * scalar
+      -- Add the product to the row
+      table.insert(row, product)
+    end
+    -- Add the row to the result matrix
+    table.insert(result, row)
+  end
+
+  -- Return the result matrix
+  return result
+end
+
+local function matrixMinor(m, i, j)
+  local minor = {}
+  local n = #m
+  local row, col = 1, 1
+
+  for k = 1, n do
+    if k ~= i then
+      col = 1
+      minor[row] = {}
+      for l = 1, n do
+        if l ~= j then
+          minor[row][col] = m[k][l]
+          col = col + 1
+        end
+      end
+      row = row + 1
+    end
+  end
+
+  return minor
+end
+
+local function matrixDeterminant(m)
+  local n = #m
+  if n == 1 then
+    return m[1][1]
+  end
+
+  local det = 0
+  for j = 1, n do
+    local sign = ((1 + j) % 2 == 0) and 1 or -1
+    local minor = matrixMinor(m, 1, j)
+    det = det + sign * m[1][j] * matrixDeterminant(minor)
+  end
+
+  return det
+end
+
+M.inversion = function(m)
+  -- Calculate the determinant of the matrix
+  local det = matrixDeterminant(m)
+  if det == 0 then
+    error 'Matrix is singular and cannot be inverted'
+  end
+
+  local n = #m
+  local adj = {}
+
+  -- Calculate the adjugate matrix
+  for i = 1, n do
+    adj[i] = {}
+    for j = 1, n do
+      local sign = ((i + j) % 2 == 0) and 1 or -1
+      adj[i][j] = sign * matrixDeterminant(matrixMinor(m, i, j))
+    end
+  end
+
+  -- Calculate the inverse of the matrix
+  local inv = {}
+  for i = 1, n do
+    inv[i] = {}
+    for j = 1, n do
+      inv[i][j] = adj[j][i] / det
+    end
+  end
+
+  return inv
+end
+
 M.zeros = zeros
 
 return M

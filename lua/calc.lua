@@ -97,16 +97,16 @@ return function(config)
   local d_2 = 2 * d
 
   -- Beam elastic moduli
-  local E_1 = 4 * E
-  local E_2 = 4
+  local E_v1 = 4 * E
+  local E_v2 = 4
 
   -- Beam areas
   local A_1 = d_1 ^ 2 * PI / 4
   local A_2 = d_2 ^ 2 * PI / 4
 
   -- Beam moments of inertia
-  local I_1 = d_1 ^ 4 * PI / 64
-  local I_2 = d_2 ^ 4 * PI / 64
+  local I_v1 = d_1 ^ 4 * PI / 64
+  local I_v2 = d_2 ^ 4 * PI / 64
 
   -- Params in matrix form
   local LMat = { a, b - a, c - b }
@@ -224,15 +224,201 @@ return function(config)
     end
   end
 
+  -- Sziltan
+  local F_1 = 0
+  local F_2 = F_t
+  local F_3 = 0
+  local M_2 = 0
+  local M_3 = M_t
+  local p_1 = p_t
+  local p_2 = p_t
+  local p_3 = 0
+  local l_1 = LMat[1]
+  local l_2 = LMat[2]
+  local l_3 = LMat[3]
+  local I_1 = IMat[1]
+  local I_2 = IMat[2]
+  local I_3 = IMat[3]
+  local E_1 = EMat[1]
+  local E_2 = EMat[2]
+  local E_3 = EMat[3]
+  local rIE1 = 1 / I_1 / E_1
+  local rIE2 = 1 / I_2 / E_2
+  local rIE3 = 1 / I_3 / E_3
+
+  local xParam = {
+    { 'F_O' },
+    { 'F_A' },
+    { 'F_B' },
+    { 'F_C' },
+    { 'M_C' },
+    { 'C_{11}' },
+    { 'C_{12}' },
+    { 'C_{21}' },
+    { 'C_{22}' },
+    { 'C_{31}' },
+    { 'C_{32}' },
+  }
+
+  local A = {
+    { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }, -- 3
+    { a ^ 3 / 6, 0, 0, 0, 0, a, 1, 0, 0, 0, 0 }, -- 4
+    { 0, 0, 0, -b ^ 3 / 6 + b ^ 2 * c / 2, b ^ 2 / 2, 0, 0, 0, 0, b, 1 }, -- 5
+    { 0, 0, 0, -c ^ 3 / 6 + c ^ 3 / 2, c ^ 2 / 2, 0, 0, 0, 0, c, 1 }, -- 6
+    { 0, 0, 0, -c ^ 2 / 2 + c ^ 2, c, 0, 0, 0, 0, 1, 0 }, -- 7
+    { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 }, -- 1
+    { 0, a, b, c, 1, 0, 0, 0, 0, 0, 0 }, -- 2
+    {
+      rIE1 * a ^ 2 / 2 - rIE2 * a ^ 2 / 2,
+      rIE2 * (a ^ 2 - a ^ 2 / 2),
+      0,
+      0,
+      0,
+      rIE1,
+      0,
+      -rIE2,
+      0,
+      0,
+      0,
+    }, -- 8
+    {
+      -rIE2 * b ^ 2 / 2,
+      rIE2 * (b * a - b ^ 2 / 2),
+      0,
+      rIE3 * (-b ^ 2 / 2 + b * c),
+      rIE3 * b,
+      0,
+      0,
+      -rIE2,
+      0,
+      rIE2,
+      0,
+    }, -- 9
+    {
+      rIE1 * a ^ 3 / 6 - rIE2 * a ^ 3 / 6,
+      rIE2 * (a ^ 3 / 2 - a ^ 3 / 6),
+      0,
+      0,
+      0,
+      a * rIE1,
+      rIE1,
+      -a * rIE2,
+      -rIE2,
+      0,
+      0,
+    }, -- 10
+    {
+      -rIE2 * b ^ 3 / 6,
+      rIE2 * (b ^ 2 * a / 2 - b ^ 3 / 6),
+      0,
+      rIE3 * (b ^ 2 * c / 2 - b ^ 3 / 6),
+      rIE3 * b ^ 2 / 2,
+      0,
+      0,
+      -rIE2 * b,
+      -rIE2,
+      rIE3 * b,
+      rIE3,
+    }, -- 11
+  }
+
+  local bVec = {
+    { 0 }, -- 3
+    { F_1 * a ^ 3 / 6 + p_1 * a ^ 4 / 24 }, -- 4
+    { p_3 * (b ^ 4 / 24 - b ^ 3 * c / 6 - b ^ 2 * c ^ 2 / 4) }, -- 5
+    { p_3 * (c ^ 4 / 24 - c ^ 4 / 6 - c ^ 4 / 4) }, -- 6
+    { p_3 * (c ^ 3 / 6 - c ^ 3 / 2 - c ^ 3 / 2) }, -- 7
+    { F_1 + F_2 + F_3 + p_1 * l_1 + p_2 * l_2 + p_3 * l_3 }, -- 1
+    {
+      -M_2
+        - M_3
+        + a * F_2
+        + b * F_3
+        + p_1 * l_1 * l_1 / 2
+        + p_2 * l_2 * (l_1 + l_2 / 2)
+        + p_3 * l_3 * (l_1 + l_2 + l_3 / 3),
+    }, -- 2
+    {
+      rIE1 * (F_1 * a ^ 2 / 2 + p_1 * a ^ 3 / 6)
+        + rIE2
+          * (-a ^ 3 * p_2 / 6 + a ^ 2 / 2 * (-F_1 - F_2 - p_1 * l_1 + p_2 * a) + a * (F_2 * a - M_2 + (p_1 * l_1 * a - p_2 * a ^ 2) / 2)),
+    }, -- 8
+    {
+      rIE3 * (b ^ 3 * p_3 / 6 - b ^ 2 * c * p_3 / 2 - b * c ^ 2 * p_3 / 2)
+        + rIE2
+          * (-b ^ 3 * p_2 / 6 + b ^ 2 / 2 * (-F_1 - F_2 - p_1 * l_1 + p_2 * a) + b * (F_2 * a - M_2 + (p_1 * l_1 * a - p_2 * a ^ 2) / 2)),
+    }, -- 9
+    {
+      rIE1 * (F_1 * a ^ 3 / 6 + a ^ 4 * p_1 / 24)
+        + rIE2
+          * (-a ^ 4 * p_2 / 24 + a ^ 3 * (-F_1 - F_2 - p_1 * l_1 + p_2 * a) / 6 + a ^ 2 * (F_2 * a / 2 - M_2 / 2 + (p_1 * l_1 * a - p_2 * a ^ 2) / 4)),
+    }, -- 10
+    {
+      rIE3 * (b ^ 4 / 24 * p_3 - b ^ 3 * c / 6 * p_3 - b ^ 2 * c ^ 2 / 4 * p_3)
+        + rIE2
+          * (-b ^ 4 * p_2 / 24 + b ^ 3 * (-F_1 - F_2 - p_1 * l_1 + p_2 * a) / 6 + b ^ 2 * (F_2 * a / 2 - M_2 / 2 + (p_1 * l_1 * a - p_2 * a ^ 2) / 4)),
+    }, -- 11
+  }
+
+  -- Delete eqs: 3, 5
+  -- Delete variables: 1 3
+  local free = { 2, 4, 5, 6, 7, 8, 9, 10, 11 }
+
+  local Akond = matrix.subMatrix(A, free)
+  local xParamkond = matrix.subVector(xParam, free)
+  local bkond = matrix.subVector(bVec, free)
+
+  local Ai = matrix.inversion(Akond)
+
+  local xkond = matrix.multiplyMatrices(Ai, bkond)
+
+  local xcalc = matrix.extVector(xkond, free, 11)
+
+  local F_O = xcalc[1][1]
+  local F_A = xcalc[2][1]
+  local F_B = xcalc[3][1]
+  local F_C = xcalc[4][1]
+  local M_C = xcalc[5][1]
+  local C_11 = xcalc[6][1]
+  local C_12 = xcalc[7][1]
+  local C_21 = xcalc[8][1]
+  local C_22 = xcalc[9][1]
+  local C_31 = xcalc[10][1]
+  local C_32 = xcalc[11][1]
+
+  local wMat = {
+    {
+      [4] = rIE1 * (-p_1 / 24),
+      [3] = rIE1 * (F_O - F_1) / 6,
+      [2] = 0,
+      [1] = rIE1 * C_11,
+      [0] = rIE1 * C_12,
+    },
+    {
+      [4] = rIE1 * (-p_1 / 24),
+      [3] = rIE1 * (F_O - F_1) / 6,
+      [2] = 0,
+      [1] = rIE1 * C_11,
+      [0] = rIE1 * C_12,
+    },
+    {
+      [4] = rIE3 * (-p_3 / 24),
+      [3] = rIE3 * (-F_C / 6 + c * p_3 / 6),
+      [2] = rIE3 * (M_C / 2 + F_C * c / 2 + c ^ 2 * p_3 / 4),
+      [1] = rIE1 * C_31,
+      [0] = rIE1 * C_32,
+    },
+  }
+
   local M = {
     d_1 = d_1,
     d_2 = d_2,
-    E_1 = E_1,
-    E_2 = E_2,
+    E_1 = E_v1,
+    E_2 = E_v2,
     A_1 = A_1,
     A_2 = A_2,
-    I_1 = I_1,
-    I_2 = I_2,
+    I_1 = I_v1,
+    I_2 = I_v2,
 
     LMat = LMat,
     dMat = dMat,
@@ -264,6 +450,19 @@ return function(config)
     vMat = vMat,
     phiMat = phiMat,
     MhMat = MhMat,
+
+    -- Sziltan
+    xParam = xParam,
+    A = A,
+    bVec = bVec,
+    xParamkond = xParamkond,
+    xkond = xkond,
+    bkond = bkond,
+    Ai = Ai,
+    Akond = Akond,
+    xcalc = xcalc,
+
+    wMat = wMat,
   }
 
   for k, v in pairs(M) do

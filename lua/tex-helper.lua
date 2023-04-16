@@ -243,7 +243,7 @@ return function(t)
       printMatrix(v.Freacc, 1)
     end,
     xd = function()
-      printMatrix(v.vMat)
+      printMatrix(v.xcalc)
     end,
   }
 end
