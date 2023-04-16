@@ -65,6 +65,36 @@
       name path=f1
     ]
     {x^2 * \dv{V.phiMat[3][2]} + x * \dv{V.phiMat[3][1]} + \dv{V.phiMat[3][0]}};
+
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=0:\lv{a},
+      name path=f1
+    ]
+    {x^3 * \dv{V.thetaMat[1][3]} + x^2 * \dv{V.thetaMat[1][2]} + x * \dv{V.thetaMat[1][1]} + \dv{V.thetaMat[1][0]}};
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{a}:\lv{b},
+      name path=f1
+    ]
+    {x^3 * \dv{V.thetaMat[2][3]} + x^2 * \dv{V.thetaMat[2][2]} + x * \dv{V.thetaMat[2][1]} + \dv{V.thetaMat[2][0]}};
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{b}:\lv{c},
+      name path=f1
+    ]
+    {x^3 * \dv{V.thetaMat[3][3]} + x^2 * \dv{V.thetaMat[3][2]} + x * \dv{V.thetaMat[3][1]} + \dv{V.thetaMat[3][0]}};
   \end{axis}
 \end{tikzpicture}
 \end{document}
+
+

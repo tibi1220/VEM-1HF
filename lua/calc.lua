@@ -67,10 +67,27 @@ local function getPhi(v)
   }
 end
 
+local function getTheta(w)
+  return {
+    [0] = w[1],
+    [1] = 2 * w[2],
+    [2] = 3 * w[3],
+    [3] = 4 * w[4],
+  }
+end
+
 local function getMh(phi, I, E)
   return {
     [0] = -I * E * phi[1],
     [1] = -2 * I * E * phi[2],
+  }
+end
+
+local function getM(theta, I, E)
+  return {
+    [0] = -I * E * theta[1],
+    [1] = -2 * I * E * theta[2],
+    [2] = -3 * I * E * theta[3],
   }
 end
 
@@ -226,10 +243,10 @@ return function(config)
 
   -- Sziltan
   local F_1 = 0
-  local F_2 = F_t
-  local F_3 = 0
-  local M_2 = 0
-  local M_3 = M_t
+  local F_2 = 0
+  local F_3 = F_t
+  local M_2 = M_t
+  local M_3 = 0
   local p_1 = p_t
   local p_2 = p_t
   local p_3 = 0
@@ -291,7 +308,7 @@ return function(config)
       0,
       -rIE2,
       0,
-      rIE2,
+      rIE3,
       0,
     }, -- 9
     {
@@ -395,11 +412,12 @@ return function(config)
       [0] = rIE1 * C_12,
     },
     {
-      [4] = rIE1 * (-p_1 / 24),
-      [3] = rIE1 * (F_O - F_1) / 6,
-      [2] = 0,
-      [1] = rIE1 * C_11,
-      [0] = rIE1 * C_12,
+      [4] = rIE2 * (-p_2 / 24),
+      [3] = rIE2 * (-F_1 + F_O - F_2 + F_A - p_1 * l_1 + p_2 * a) / 6,
+      [2] = rIE2
+        * ((F_2 * a - F_A * a - M_2) / 2 + (p_1 * l_1 * a - p_2 * a ^ 2) / 4),
+      [1] = rIE2 * C_21,
+      [0] = rIE2 * C_22,
     },
     {
       [4] = rIE3 * (-p_3 / 24),
@@ -409,6 +427,13 @@ return function(config)
       [0] = rIE1 * C_32,
     },
   }
+
+  local thetaMat = {}
+  local MMat = {}
+  for i = 1, 3 do
+    thetaMat[i] = getTheta(wMat[i])
+    MMat[i] = getM(thetaMat[i], IMat[i], EMat[i])
+  end
 
   local M = {
     d_1 = d_1,
@@ -463,6 +488,8 @@ return function(config)
     xcalc = xcalc,
 
     wMat = wMat,
+    thetaMat = thetaMat,
+    MMat = MMat,
   }
 
   for k, v in pairs(M) do

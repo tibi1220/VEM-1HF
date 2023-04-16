@@ -64,6 +64,37 @@
       name path=f1
     ]
     {x * \dv{V.MhMat[3][1]} + \dv{V.MhMat[3][0]}};
+
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=0:\lv{a},
+      name path=f1
+    ]
+    {x^2 * \dv{V.MMat[1][2]} + x * \dv{V.MMat[1][1]} + \dv{V.MMat[1][0]}};
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{a}:\lv{b},
+      name path=f1
+    ]
+    {x^2 * \dv{V.MMat[2][2]} + x * \dv{V.MMat[2][1]} + \dv{V.MMat[2][0]}};
+    \addplot[
+      color=red,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{b}:\lv{c},
+      name path=f1
+    ]
+    {x^2 * \dv{V.MMat[3][2]} + x * \dv{V.MMat[3][1]} + \dv{V.MMat[3][0]}};
   \end{axis}
 \end{tikzpicture}
 \end{document}
+
+
+
