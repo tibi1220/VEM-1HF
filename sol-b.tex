@@ -2,7 +2,7 @@ A végeselem modellünkben jelenleg 4 csomópont van, ezért a rendszernek össz
 $4 \cdot 2 = 8$ szabadsági foka van. A rendszer csomóponti elmozdulásvektora
 emiatt $8$ elemű:
 \begin{equation}
-  \rvec{U} = \left[ \begin{array}{*{10}{X{6mm}}}
+  \rvec{U} = \left[ \begin{array}{*{8}{X{6mm}}}
       v_1 & \varphi_1 &
       v_2 & \varphi_2 &
       v_3 & \varphi_3 &
@@ -14,21 +14,21 @@ emiatt $8$ elemű:
 
 Az egyes elemekhez tartozó elmozdulásvektorok:
 \begin{gather}
-  \rvec{U}_1 = \left[ \begin{array}{*{10}{X{6mm}}}
+  \rvec{U}_1 = \left[ \begin{array}{*{4}{X{6mm}}}
       v_1 & \varphi_1 &
       v_2 & \varphi_2
     \end{array}
     \right]^\mathsf{T}
   \text,
   \\
-  \rvec{U}_2 = \left[ \begin{array}{*{10}{X{6mm}}}
+  \rvec{U}_2 = \left[ \begin{array}{*{4}{X{6mm}}}
       v_2 & \varphi_2 &
       v_3 & \varphi_3
     \end{array}
     \right]^\mathsf{T}
   \text,
   \\
-  \rvec{U}_3 = \left[ \begin{array}{*{10}{X{6mm}}}
+  \rvec{U}_3 = \left[ \begin{array}{*{4}{X{6mm}}}
       v_3 & \varphi_3 &
       v_4 & \varphi_4
     \end{array}
@@ -76,7 +76,6 @@ tartozó helyhez rendeljük hozzá. Ezt a \ref{fig:K}. ábra szemlélteti.
   \label{fig:K}
 \end{figure}
 
-
 A globális merevségi mátrix tehát az alábbi alakot veszi fel:
 \begin{equation}
   \siplaces{3}
@@ -86,3 +85,143 @@ A globális merevségi mátrix tehát az alábbi alakot veszi fel:
   \text.
   \label{eq:K}
 \end{equation}
+
+A globális terhelésvektor a reakciók és a terhelések összege. Az állandó
+intenzitású megoszló terhelést az elemek végén ébredő koncentrált erőkkel
+és erőpárokkal helyettesítjük. A vektor a kényszerek ismeretében az alábbi
+alakot veszi fel:
+\begin{equation}
+  \def\arraystretch{1.2}
+  \rvec{F} =
+  \directlua{H.printParametricF()}
+  \label{eq:F-param}
+\end{equation}
+
+A rendszer merevségi egyenlete:
+\begin{equation}
+  \rmat K \rvec U = \rvec F
+  \text.
+  \label{eq:KUF}
+\end{equation}
+
+Fontos, hogy a merevségi egyenlet csak abban az esetben oldható meg mátrix
+inverziós módszerrel, amennyiben $\rmat K$ mátrix reguláris. Mivel ez a
+feltétel nem teljesül, ezért keressünk peremfeltételeket, melyek segítségével
+olyan alakra redukáljuk az egyenletrendszert, hogy az invertálással megoldható
+legyen. A szerkezet felépítése alapján tudjuk, hogy
+%
+\input{differences/connections}
+%
+Mivel $\widehat{\rmat K}$ mátrix reguláris, ezért az egyenletrendszer
+mátrix-invertálással megoldható, vagyis:
+\begin{equation}
+  \sifigures{3} \sisci{}
+  \widehat{\rvec U} =
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printKinv()}
+    \end{bmatrix}}_{\widehat{\rmat K}^{-1}}
+  \siplaces{2} \sifix{}
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printFkond()}
+    \end{bmatrix}}_{\widehat{\rvec F}}
+  .
+  \label{eq:inverted}
+\end{equation}
+
+Az egyenlet megoldása numerikusan:
+\begin{equation}
+  \sifigures{4} \sisci{}
+  \widehat{\rvec U} = \begin{bmatrix}
+    \directlua{H.printUkond(1)}
+  \end{bmatrix} \, \mathrm{SI}
+  =
+  \siplaces{4} \sifix{}
+  \begin{bmatrix}
+    \directlua{H.printUkondDegMM()}
+  \end{bmatrix}
+  \text.
+  \label{eq:numericCond}
+\end{equation}
+
+A globális elmozdulásvektorba visszahelyettesítve:
+\begin{equation}
+  \sifigures{3} \sisci\
+  {\rvec U} = \begin{bmatrix}
+    \directlua{H.printUcalc()}
+  \end{bmatrix} \, \mathrm{SI}
+  =
+  \siplaces{4} \sifix{}
+  \begin{bmatrix}
+    \directlua{H.printUcalcDegMM()}
+  \end{bmatrix}
+  \text.
+\end{equation}
+
+Ha a merevségi egyenletbe visszahelyettesítjük a már ismert elmozdulási vektort,
+akkor megkaphatjuk a terhelési vektort numerikusan:
+\begin{equation}
+  \siplaces{3}
+  \rvec F = \rmat K \rvec U =
+  \begin{bmatrix}
+    \directlua{H.printFcalc()}
+  \end{bmatrix}
+  \, \mathrm{SI}
+  =
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printF()}
+    \end{bmatrix}}_\text{terhelés}
+  \, \mathrm{SI}
+  +
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printFreacc()}
+    \end{bmatrix}}_\text{reakció}
+  \, \mathrm{SI}
+  \text.
+  \label{eq:Fcalc}
+\end{equation}
+
+A lehajlásfüggvényekek meghatározásához elemeken belüli interpolációt kell
+alkalmaznunk. A formafüggvények alakja a globális koordináta-rendszerben:
+\begin{equation}
+  \renewcommand\a{\left(\sfrac{x}{L_i}\right)}
+  \rvec N(x) =
+  \begin{bmatrix}
+    1 - 3\a^2 + 2\a  \\[2mm]
+    x - 2x\a + x\a^2 \\[2mm]
+    3\a^2 - 2\a^3    \\[2mm]
+    -x\a + x\a^2
+  \end{bmatrix}
+  \text.
+  \label{eq:N-param}
+\end{equation}
+
+Tetszőleges elem lehajlásfüggvénye előállítható az alábbi módon:
+\begin{equation}
+  v_i(x) = \rvec N(x)^{\mathsf T} \rvec U_i
+  \text.
+  \label{eq:v-param}
+\end{equation}
+
+Az elmozdulások ismeretében a függvények numerikusan:
+\input{differences/sol-b/v}
+
+A szögelfordulás függvényeket megkapjuk, ha deriváljuk a lehajlásfüggvényeket:
+\begin{equation}
+  \varphi_i(x) = v_i'(x)
+  \text.
+  \label{eq:phi-param}
+\end{equation}
+
+A függvények numerikusan:
+\input{differences/sol-b/phi}
+
+A rugalmas szál differenciálegyenlete alapján a hajlítónyomatéki függvények
+és lehajlások közötti kapcsolat:
+\begin{equation}
+  M_{h,i}(x) = -IE \cdot v_i''(x)
+  \text.
+  \label{eq:Mh-param}
+\end{equation}
+
+A függvények numerikusan:
+\input{differences/sol-b/Mh}

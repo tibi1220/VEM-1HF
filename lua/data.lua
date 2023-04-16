@@ -16,6 +16,13 @@ local data = {
         { number = 2, value = 2 },
         { number = 3, value = 2 },
       },
+      forces = {
+        F = 3,
+        M = 2,
+        p = { 1, 1, 0 },
+      },
+      free = { 1, 2, 4, 5, 6 },
+      notFree = { 3, 7, 8 },
     },
     {
       code = 2,
@@ -33,6 +40,13 @@ local data = {
         { number = 2, value = 2 },
         { number = 3, value = 1 },
       },
+      forces = {
+        F = 1,
+        M = 3,
+        p = { 0, 1, 1 },
+      },
+      free = { 1, 2, 4, 5, 6 },
+      notFree = { 3, 7, 8 },
     },
     {
       code = 3,
@@ -51,6 +65,13 @@ local data = {
         { number = 2, value = 1 },
         { number = 3, value = 2 },
       },
+      forces = {
+        F = 3,
+        M = 2,
+        p = { 0, 1, 1 },
+      },
+      free = { 2, 4, 5, 6, 8 },
+      notFree = { 1, 3, 7 },
     },
     {
       code = 4,
@@ -58,7 +79,7 @@ local data = {
       thick = { b = 'o', e = 'a', d = 2, E = 1 },
       F_t = 'a',
       M_t = 'b',
-      p_t = { b = 'o', e = 'b', s = 2, l = 'l' },
+      p_t = { b = 'o', e = 'b', s = 2, l = 'l', a = { 1, 1, 0 } },
       connections = {
         { l = 'o', o = 's', dof = 2 },
         { l = 'b', o = 's', dof = 1 },
@@ -69,6 +90,13 @@ local data = {
         { number = 2, value = 1 },
         { number = 3, value = 1 },
       },
+      forces = {
+        F = 2,
+        M = 3,
+        p = { 1, 1, 0 },
+      },
+      free = { 2, 3, 4, 6, 8 },
+      notFree = { 1, 5, 7 },
     },
   },
 

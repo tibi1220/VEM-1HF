@@ -1,3 +1,5 @@
+local PI = math.pi
+
 local function round(num, numDecimalPlaces)
   return tonumber(string.format('%.' .. (numDecimalPlaces or 0) .. 'f', num))
 end
@@ -41,6 +43,11 @@ return function(t)
     -- Direct printing
     printDirect = function(var)
       tex.sprint(var)
+    end,
+
+    -- Direct formatted printing
+    printSIDirect = function(num)
+      prinTeX(num.value, num.unit, num.dec)
     end,
 
     -- Simply print the specified value
@@ -92,15 +99,151 @@ return function(t)
         end
       end
       tex.sprint [[ \end{array}\right] & \textcolor{gray}{
-    \begin{pmatrix}
-      1 \\ 2 \\ 3
-    \end{pmatrix}
-  }. \end{array} ]]
+        \begin{pmatrix}
+          1 \\ 2 \\ 3
+        \end{pmatrix}
+      }. \end{array} ]]
+    end,
+
+    printParametricF = function()
+      local figure = v.parametric
+
+      local p = figure.forces.p
+      local F = figure.forces.F
+      local M = figure.forces.M
+      local free = figure.free
+      local letters = { 'A', 'B', 'C', 'D' }
+
+      tex.sprint [[\begin{bmatrix}]]
+      for i = 0, 3 do
+        for j = 1, 2 do
+          local found = false
+          for k = 1, 5 do
+            if free[k] == i * 2 + j then
+              found = true
+            end
+          end
+          if found then
+            tex.sprint [[ 0 \\ ]]
+          else
+            if j == 1 then
+              tex.sprint([[F_{]] .. letters[i + 1] .. [[}\\]])
+            else
+              tex.sprint([[M_{]] .. letters[i + 1] .. [[}\\]])
+            end
+          end
+        end
+      end
+      tex.sprint [[\end{bmatrix}]]
+
+      tex.sprint [[+ \begin{bmatrix}]]
+      for i = 1, 4 do
+        if F == i then
+          tex.sprint [[ -F_t \\ ]]
+        else
+          tex.sprint [[ 0 \\ ]]
+        end
+        if M == i then
+          tex.sprint [[ M_t \\ ]]
+        else
+          tex.sprint [[ 0 \\ ]]
+        end
+      end
+      tex.sprint [[\end{bmatrix}]]
+
+      for i = 0, 2 do
+        if p[i + 1] == 1 then
+          tex.sprint(
+            [[+ \begin{bmatrix}]]
+              .. string.rep('0 \\\\', 2 * i)
+              .. [[ p_t (L/2) \\ p_t (L^2/12) \\ p_t (L/2) \\ p_t (L^2/12) ]]
+              .. string.rep('\\\\ 0', 2 * (2 - i))
+              .. [[\end{bmatrix}]]
+          )
+        end
+      end
+    end,
+
+    printUkondDegMM = function()
+      local free = v.parametric.free
+      local U = v.Ucalc
+
+      for k = 1, 5 do
+        local i = free[k]
+        local e = U[i][1]
+
+        if i % 2 == 1 then
+          if math.abs(e) <= 0.000001 then
+            tex.print [[0 \, \mathrm{mm}]]
+          else
+            prinTeX(e * 1000, 'mm', '')
+          end
+        else
+          if math.abs(e) <= 0.00000001 then
+            tex.print [[0^\circ]]
+          else
+            prinTeX(e * 180 / PI, '\\degree', '')
+          end
+        end
+
+        tex.sprint '\\\\'
+      end
+    end,
+
+    printUcalcDegMM = function()
+      local U = v.Ucalc
+
+      for i = 1, 8 do
+        local e = U[i][1]
+
+        if i % 2 == 1 then
+          if math.abs(e) <= 0.000001 then
+            tex.print [[0 \, \mathrm{mm}]]
+          else
+            prinTeX(e * 1000, 'mm', '')
+          end
+        else
+          if math.abs(e) <= 0.00000001 then
+            tex.print [[0^\circ]]
+          else
+            prinTeX(e * 180 / PI, '\\degree', '')
+          end
+        end
+
+        tex.sprint '\\\\'
+      end
     end,
 
     -- Other matrix printing functions
     printK = function(mult)
       printMatrix(v.K, 1, mult)
+    end,
+    printKkond = function()
+      printMatrix(v.Kkond)
+    end,
+    printKinv = function()
+      printMatrix(v.Kinv)
+    end,
+    printUcalc = function()
+      printMatrix(v.Ucalc)
+    end,
+    printUkond = function()
+      printMatrix(v.Ukond)
+    end,
+    printF = function()
+      printMatrix(v.F)
+    end,
+    printFkond = function()
+      printMatrix(v.Fkond, 1, 1)
+    end,
+    printFcalc = function()
+      printMatrix(v.Fcalc)
+    end,
+    printFreacc = function()
+      printMatrix(v.Freacc, 1)
+    end,
+    xd = function()
+      printMatrix(v.vMat)
     end,
   }
 end

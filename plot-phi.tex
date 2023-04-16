@@ -1,0 +1,70 @@
+\documentclass[12pt]{standalone}
+
+\input{config/gateway}
+\input{config/math}
+\input{config/tikz.tex}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0,xmax=\lv{c}*1.05,
+    ylabel={$\varphi(x)\; [\mathrm{rad}]$},
+    xlabel={$x\; [\mathrm m]$},
+    axis x line=center,  axis y line=center,
+    enlarge y limits=.05,
+    minor x tick num=4,
+    minor y tick num=1,
+    axis line style={-to, thick},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    major grid style={line width=.2pt,draw=gray!80},
+    xtick={0, .25, ..., 1},
+    % ytick={-0.005, -0.0025, ..., .01},
+    scaled y ticks=false,
+    yticklabel style = {
+        /pgf/number format/fixed,
+        /pgf/number format/precision=4,
+        /pgf/number format/.cd,
+        fixed,fixed zerofill,precision=4,
+      },
+    xticklabel style = {
+        /pgf/number format/fixed,
+        /pgf/number format/precision=3,
+        /pgf/number format/.cd,
+        fixed,fixed zerofill,precision=2,
+      },
+    every major tick/.style = {
+        black, semithick,
+      },
+    /pgf/number format/.cd, use comma,
+    ]
+    \addplot[
+      color=blue,
+      samples=50,
+      very thick,
+      smooth,
+      domain=0:\lv{a},
+      name path=f1
+    ]
+    {x^2 * \dv{V.phiMat[1][2]} + x * \dv{V.phiMat[1][1]} + \dv{V.phiMat[1][0]}};
+    \addplot[
+      color=blue,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{a}:\lv{b},
+      name path=f1
+    ]
+    {x^2 * \dv{V.phiMat[2][2]} + x * \dv{V.phiMat[2][1]} + \dv{V.phiMat[2][0]}};
+    \addplot[
+      color=blue,
+      samples=50,
+      very thick,
+      smooth,
+      domain=\lv{b}:\lv{c},
+      name path=f1
+    ]
+    {x^2 * \dv{V.phiMat[3][2]} + x * \dv{V.phiMat[3][1]} + \dv{V.phiMat[3][0]}};
+  \end{axis}
+\end{tikzpicture}
+\end{document}
