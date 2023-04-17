@@ -1,4 +1,5 @@
 \documentclass[a4paper, 12pt]{scrartcl}
+\usepackage{scrfontsizes}
 
 % Use Hungarian Locale
 \usepackage[magyar]{babel}
@@ -13,9 +14,9 @@
 \begin{document}
 
 \input{titlepage}
+\allowdisplaybreaks
 
 \section{Méretarányos ábra} % (fold)
-\label{sec:Méretarányos ábra}
 
 A feladatkódom (\texttt{\lvec{code}{1}\lvec{code}{2}\lvec{code}{3}\lvec{code}{4}})
 alapján a szerkezetet jellemző adatok:
@@ -45,12 +46,9 @@ a valóságban $\SI{10}{cm}$-nek felel meg.
   \label{fig:construction}
 \end{figure}
 
-% section Méretarányos ábra (end)
-
 
 
 \section{Lehajlás-, és hajlítónyomatéki igénybevétel függvények} % (fold)
-\label{sec:Lehajlás- és hajlítónyomatéki igénybevétel függvények}
 
 \begin{figure}[H]
   \centering
@@ -100,15 +98,15 @@ A csomópontok koordinátáit az \ref{table:U}. táblázat tartalmazza.
   \caption{A csomópontok koordinátái}
   \begin{tabular}{| c || X{1.5cm} | X{1.5cm} |}
     \hline
-    Csp. & x \,[\text{m}] & y \,[\text{m}]
+    Csp.    & x \,[\text{m}] & y \,[\text{m}]
     \\ \hline \hline
-    1    & \SI{0}{m}      & \SI{0}{m}
+    1 ($O$) & \SI{0}{m}      & \SI{0}{m}
     \\ \hline
-    2    & \silv{a}{m}    & \SI{0}{m}
+    2 ($A$) & \silv{a}{m}    & \SI{0}{m}
     \\ \hline
-    3    & \silv{b}{m}    & \SI{0}{m}
+    3 ($B$) & \silv{b}{m}    & \SI{0}{m}
     \\ \hline
-    4    & \silv{c}{m}    & \SI{0}{m}
+    4 ($C$) & \silv{c}{m}    & \SI{0}{m}
     \\ \hline
   \end{tabular}
   \label{table:U}
@@ -134,59 +132,37 @@ a \ref{table:lok}. táblázat foglalja össze.
 
 
 \subsection{Megoldás differenciálegyenlettel} % (fold)
-\label{ssec:Megoldás differenciálegyenlettel}
-
 \input{sol-a}
 
-% subsection Megoldás differenciálegyenlettel (end)
-
-
 \subsection{Megoldás végeselem módszerrel} % (fold)
-\label{ssec:Megoldás végeselem módszerrel}
-
 \input{sol-b}
-
-% subsection Megoldás végeselem módszerrel (end)
-
-\begin{equation}
-  \begin{array}{c}
-    \directlua{H.xd()}
-  \end{array}
-  \label{eq:xd}
-\end{equation}
 
 \clearpage
 \subsection{Megoldásfüggvények ábrázolása} % (fold)
 \label{sub:Megoldásfüggvények ábrázolása}
 
 \begin{figure}[H]
-  \flushright
+  \hfill
   \includestandalone{plot-v}
-  \hspace{5mm}\vspace{-3mm}
-  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott $v(x)$ lehajlásfüggvény}
+  \vspace{-3mm}
+  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott lehajlásfüggvény}
   \label{fig:plot-v}
 \end{figure}
-
+\vspace{-3mm}
 \begin{figure}[H]
-  \flushright
+  \hfill
   \includestandalone{plot-phi}
-  \hspace{5mm}\vspace{-3mm}
-  \caption{$\varphi(x)$}
+  \vspace{-3mm}
+  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott szögelfordulás függvény}
   \label{fig:plot-phi}
 \end{figure}
-
+\vspace{-3mm}
 \begin{figure}[H]
-  \flushright
+  \hfill
   \includestandalone{plot-Mh}
-  \hspace{5mm}\vspace{-3mm}
-  \caption{$M_h(x)$}
+  \vspace{-3mm}
+  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott hajlítónyomatéli függvény}
   \label{fig:plot-Mh}
 \end{figure}
-
-
-% subsection Megoldásfüggvények ábrázolás (end)
-
-
-% section Lehajlás-, és hajlítónyomatéki igénybevétel függvények (end)
 
 \end{document}

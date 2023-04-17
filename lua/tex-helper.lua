@@ -36,6 +36,23 @@ local function printMatrix(matrix, th, mult)
   end
 end
 
+local function printRawMatrix(matrix)
+  local cols = #matrix
+  local rows = #matrix[1]
+
+  for i = 1, cols do
+    for j = 1, rows do
+      tex.sprint(matrix[i][j])
+
+      if j == rows then
+        tex.sprint '\\\\'
+      else
+        tex.sprint '&'
+      end
+    end
+  end
+end
+
 return function(t)
   local v = t.variables
 
@@ -244,6 +261,76 @@ return function(t)
     end,
     xd = function()
       printMatrix(v.xcalc)
+    end,
+
+    printXParamkond = function()
+      printRawMatrix(v.xParamkond)
+    end,
+    printXkond = function()
+      printMatrix(v.xkond)
+    end,
+    printBkond = function()
+      printMatrix(v.bkond)
+    end,
+    printAkond = function()
+      printMatrix(v.Akond)
+    end,
+    printAi = function()
+      printMatrix(v.Ai, 1e-10)
+    end,
+
+
+    -- Optional force printing
+    optionallyPrintF = function(pre, index, post)
+      local forces = v.parametric.forces
+      local code = v.parametric.code
+
+      if type(index) == 'number' then
+        if forces.F == index then
+          tex.print(pre .. 'F_t' .. post)
+        end
+      else
+        if index == 'O' and (code == 3 or code == 4) then
+          tex.print(pre .. 'F_' .. index .. post)
+        elseif index == 'A' and code ~= 4 then
+          tex.print(pre .. 'F_' .. index .. post)
+        elseif index == 'B' and code == 4 then
+          tex.print(pre .. 'F_' .. index .. post)
+        elseif index == 'C' and (code == 3 or code == 4) then
+          tex.print(pre .. 'F_' .. index .. post)
+        end
+      end
+    end,
+
+    -- Optional torque printing
+    optionallyPrintM = function(pre, index, post)
+      local forces = v.parametric.forces
+      local code = v.parametric.code
+
+      if type(index) == 'number' then
+        if forces.M == index then
+          tex.print(pre .. 'M_t' .. post)
+        end
+      else
+        if index == 'C' and (code == 1 or code == 2) then
+          tex.sprint(pre .. 'M_C' .. post)
+        end
+      end
+    end,
+
+    -- Optional p printing
+    optionallyPrintP = function(pre, index, post)
+      local forces = v.parametric.forces
+      if forces.p[index] == 1 then
+        tex.print(pre .. 'p_t' .. post)
+      end
+    end,
+
+    -- Other param printing
+    printParam = function(name, index)
+      local value = v.parametric.beams[index]['value']
+
+      tex.sprint(name .. '_' .. value)
     end,
   }
 end

@@ -1,7 +1,20 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
-\pgfplotsset{compat=1.18, width=16cm, height=8.33cm}
+\pgfplotsset{compat=1.18, width=16cm, height=7.867cm}
 \usepgfplotslibrary{fillbetween}
+\pgfkeys{/pgf/number format/use comma}
+\pgfkeys{/pgf/number format/1000 sep={\,}}
+\pgfplotsset{%
+  xmin=0,xmax=\lv{c}*1.05,
+  every major tick/.style = {gray, semithick},
+  axis x line=center,  axis y line=center,
+  enlarge y limits=.05,
+  axis line style={-to, thick},
+  grid=both,
+  grid style={line width=.1pt, draw=gray!20},
+  major grid style={line width=.2pt,draw=gray!80},
+  scaled y ticks=false,
+}
 \usetikzlibrary{
   calc,
   angles,
@@ -56,4 +69,3 @@
       outer sep=0,
     },
 }
-

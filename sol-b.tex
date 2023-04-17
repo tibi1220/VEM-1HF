@@ -66,6 +66,8 @@ tartozó szabadsági fokokat mátrixosan:
   \label{eq:DOF}
 \end{equation}
 
+\subsubsection{A globális merevségi mátrix összeállítása}
+
 A globális merevségi mátrix összeállításakor figyelnünk kell arra, hogy az adott
 elem merevségi mátrixának megfelelő elemeit a hozzá tartozó szabadsági fokhoz
 tartozó helyhez rendeljük hozzá. Ezt a \ref{fig:K}. ábra szemlélteti.
@@ -85,6 +87,8 @@ A globális merevségi mátrix tehát az alábbi alakot veszi fel:
   \text.
   \label{eq:K}
 \end{equation}
+
+\subsubsection{A merevségi egyenlet}
 
 A globális terhelésvektor a reakciók és a terhelések összege. Az állandó
 intenzitású megoszló terhelést az elemek végén ébredő koncentrált erőkkel
@@ -180,8 +184,11 @@ akkor megkaphatjuk a terhelési vektort numerikusan:
   \label{eq:Fcalc}
 \end{equation}
 
-A lehajlásfüggvényekek meghatározásához elemeken belüli interpolációt kell
-alkalmaznunk. A formafüggvények alakja a globális koordináta-rendszerben:
+\subsubsection{Keresett függvények meghatározása}
+
+A lehajlás- és szögelfordulás függvények meghatározásához elemeken belüli 
+interpolációt kell alkalmaznunk. A formafüggvények alakja a globális 
+koordináta-rendszerben:
 \begin{equation}
   \renewcommand\a{\left(\sfrac{x}{L_i}\right)}
   \rvec N(x) =

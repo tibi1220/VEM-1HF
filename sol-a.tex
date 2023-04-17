@@ -1,3 +1,335 @@
+\subsubsection{Az egyensúlyi egyenletek felírása}
+
 Írjuk fel az $y$ és $z$ irányú egyensúlyi egyenleteket:
+\begin{align}
+  \sum F_y = 0 \quad & \rightarrow \quad
+  \F[+]{"O"}
+  \F[+]{"A"}
+  \F[+]{"B"}
+  \F[+]{"C"}
+  \F[-]{1}
+  \F[-]{2}
+  \F[-]{3}
+  \p[-]{1}[l_1]
+  \p[-]{2}[l_2]
+  \p[-]{3}[l_3]
+  = 0
+  \\
+  \sum M_O = 0 \quad & \rightarrow \quad
+  \F[+]{"A"}[a]
+  \F[+]{"B"}[b]
+  \F[+]{"C"}[c]
+  \M[+]{2}
+  \M[+]{2}
+  \M[+]{"C"}
+  \F[-]{2}[a]
+  \F[-]{3}[b]
+  \p[-]{1}[l_1 \left(\frac{l_1}{2}\right)]
+  \p[-]{2}[l_2 \left(a + \frac{l_2}{2}\right)]
+  \p[-]{3}[l_3 \left(b + l_2 + \frac{l_3}{2}\right)]
+\end{align}
+
+\subsubsection{A rugalmas szál differenciálegyenlete}
+
+Az egyenletrendszer nem megoldható, mivel 3 ismeretlenünk van, de csak 2
+egyenletünk. Hívjuk segítségül a rugalmas szál differenciálegyenletét:
+\begin{equation}
+  -I_i E_i \cdot w_i''(x) = M_{h,i}(x)
+  \text.
+  \label{eq:diffeq-base}
+\end{equation}
+Határozzuk meg először a hajlítónyomatéki igénybevételi függvényt. Ehhez
+a szerkezetet szakaszokra kell bontanunk. Akkor szükséges új szakaszt
+kezdenünk, ha egy pontban keresztmetszet-változás, vagy koncentrált erőpár
+lép fel, illetve ha megoszló terhelés kezdődik, vagy végződik. A szakaszok
+tehát:
+\begin{multicols}{3}
+  \begin{enumerate}
+    \item $x \in (0; a)$
+    \item $x \in (a; b)$,
+    \item $x \in (b; c)$,
+  \end{enumerate}
+\end{multicols}
+Az egyes szakaszok igénybevételi függvénye tehát:
+\begin{align}
+  M_{h1}(x) & =
+  \F[+]{1}[x]
+  \F[-]{"O"}[x]
+  \p[+]{1}[\frac{x^2}{2}]
+  \text,
+  \\
+  M_{h2}(x) & =
+  \F[+]{1}[x]
+  \F[-]{"O"}[x]
+  \F[+]{2}[(x - a)]
+  \F[-]{"A"}[(x - a)]
+  \M[+]{2}
+  \p[+]{1}[a \left( x - \frac{a}{2} \right)]
+  \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  \text,
+  \\
+  M_{h3}(x) & =
+  \M[-]{"C"}
+  \F[-]{"C"}[(c - x)]
+  \p[+]{3}[\frac{\left( c - x \right)^2}{2}]
+  \text.
+\end{align}
+Ezen függvények ismeretében a differenciálegyenletek:
+\newcommand{\op}[1]{&{\textstyle \left/ #1 \right.}}
+\newcommand{\opint}{\op{\int \mathrm d x}}
 
 
+Első szakasz: $x \in (0;a)$
+\begin{align}
+  - \I{1} \E{1} w_1''(x) & =
+  M_{h1}(x)
+  \\
+  - \I{1} \E{1} w_1''(x) & =
+  \F[+]{1}[x]
+  \F[-]{"O"}[x]
+  \p[+]{1}[\frac{x^2}{2}]
+  \op{\cdot(-1)}
+  \\
+  \I{1} \E{1} w_1''(x)   & =
+  \F[-]{1}[x]
+  \F[+]{"O"}[x]
+  \p[-]{1}[\frac{x^2}{2}]
+  \opint{}
+  \\
+  \I{1} \E{1} w_1'(x)    & =
+  \F[-]{1}[\frac{x^2}{2}]
+  \F[+]{"O"}[\frac{x^2}{2}]
+  \p[-]{1}[\frac{x^3}{6}]
+  + C_{11}
+  \opint{}
+  \\
+  \I{1} \E{1} w_1(x)     & =
+  \F[-]{1}[\frac{x^3}{6}]
+  \F[+]{"O"}[\frac{x^3}{6}]
+  \p[-]{1}[\frac{x^4}{24}]
+  + C_{11} x
+  + C_{12}
+\end{align}
+
+Második szakasz: $x \in (a;b)$
+\par\vspace{-5mm}\KOMAoptions{fontsize=10pt}
+\begin{align}
+  - \I{2} \E{2} w_2''(x) & =
+  M_{h2}(x)
+  \\
+  - \I{2} \E{2} w_2''(x) & =
+  \F[+]{1}[x]
+  \F[-]{"O"}[x]
+  \F[+]{2}[(x - a)]
+  \F[-]{"A"}[(x - a)]
+  \M[+]{2}
+  \p[+]{1}[a \left( x - \frac{a}{2} \right)]
+  \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  \op{\cdot(-1)}
+  \\
+  \I{2} \E{2} w_2''(x)   & =
+  \F[-]{1}[x]
+  \F[+]{"O"}[x]
+  \F[+]{2}[(-x + a)]
+  \F[+]{"A"}[(x - a)]
+  \M[-]{2}
+  \p[+]{1}[\left(-a x + \frac{a^2}{2} \right)]
+  \p[+]{2}[\left(-\frac{x^2}{2} + x a - \frac{a^2}{2}\right)]
+  \opint
+  \\
+  \I{2} \E{2} w_2(x)     & =
+  \F[-]{1}[\frac{x^2}{2}]
+  \F[+]{"O"}[\frac{x^2}{2}]
+  \F[+]{2}[\left(-\frac{x^2}{2} + ax \right)]
+  \F[+]{"A"}[\left(\frac{x^2}{2} - ax \right)]
+  \M[-]{2}[x]
+  \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
+  \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+  + C_{21}
+  \opint
+  \\
+  \I{2} \E{2} w_2'(x)    & =
+  \F[-]{1}[\frac{x^3}{6}]
+  \F[+]{"O"}[\frac{x^3}{6}]
+  \F[+]{2}[\left(-\frac{x^3}{6} + \frac{ax^2}{2} \right)]
+  \F[+]{"A"}[\left(\frac{x^3}{6} - \frac{ax^2}{2} \right)]
+  \M[-]{2}[\frac{x^2}{2}]
+  \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
+  \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+  + C_{21} x
+  + C_{22}
+\end{align}
+
+\KOMAoptions{fontsize=12pt}
+Harmadik szakasz: $x \in (b;c)$
+\begin{align}
+  - \I{3} \E{3} w_3''(x) & =
+  M_{h3}(x)
+  \\
+  - \I{3} \E{3} w_3''(x) & =
+  \M[-]{"C"}
+  \F[-]{"C"}[(c - x)]
+  \p[+]{3}[\frac{\left( c - x \right)^2}{2}]
+  \op{\cdot(-1)}
+  \\
+  \I{3} \E{3} w_3''(x)   & =
+  \M[+]{"C"}
+  \F[+]{"C"}[(c - x)]
+  \p[+]{3}[\left(-\frac{x^2}{2} + cx - \frac{c^2}{2}\right)]
+  \opint{}
+  \\
+  \I{3} \E{3} w_3'(x)    & =
+  \M[+]{"C"}[x]
+  \F[+]{"C"}[\left( cx - \frac{x^2}{2} \right)]
+  \p[+]{3}[\left( -\frac{x c^2}{2} + \frac{cx^2}{2} - \frac{x^3}{6}\right)]
+  + C_{31}
+  \opint{}
+  \\
+  \I{3} \E{3} w_3(x)     & =
+  \M[+]{"C"}[\frac{x^2}{2}]
+  \F[+]{"C"}[\left( \frac{cx^2}{2} - \frac{x^3}{6} \right)]
+  \p[+]{3}[\left( -\frac{x^2 c^2}{4} + \frac{cx^3}{6} - \frac{x^4}{24}\right)]
+  + C_{31} x
+  + C_{32}
+\end{align}
+
+A szögelfordulás függvény tehát:
+\begin{align}
+  w'_1(x) & = \frac{1}{\I{1}\E{1}} \left[
+    \F[-]{1}[\frac{x^2}{2}]
+    \F[+]{"O"}[\frac{x^2}{2}]
+    \p[-]{1}[\frac{x^3}{6}]
+    + C_{11}
+    \right]
+  \text,
+  \\[3mm]
+  w'_2(x) & = \frac{1}{\I{2}\E{2}} \left[
+    \F[-]{1}[\frac{x^2}{2}]
+    \F[+]{"O"}[\frac{x^2}{2}]
+    \F[+]{2}[\left(-\frac{x^2}{2} + ax \right)]
+    \F[+]{"A"}[\left(\frac{x^2}{2} - ax \right)]
+    \M[-]{2}[x]
+    \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
+    \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+    + C_{21}
+    \right]
+  \text,
+  \\[3mm]
+  w'_3(x) & = \frac{1}{\I{3}\E{3}} \left[
+    \M[+]{"C"}[x]
+    \F[+]{"C"}[\left( cx - \frac{x^2}{2} \right)]
+    \p[+]{3}[\left( -\frac{x c^2}{2} + \frac{cx^2}{2} - \frac{x^3}{6}\right)]
+    + C_{31}
+    \right]
+  \text.
+\end{align}
+
+A lehajlás függvények pedig:
+\begin{align}
+  w_1(x) & = \frac{1}{\I{1}\E{1}} \left[
+    \F[-]{1}[\frac{x^3}{6}]
+    \F[+]{"O"}[\frac{x^3}{6}]
+    \p[-]{1}[\frac{x^4}{24}]
+    + C_{11} x
+    + C_{12}
+    \right]
+  \text,
+  \\[3mm]
+  w_2(x) & = \frac{1}{\I{2}\E{2}} \left[
+    \scalebox{.85}{\(\displaystyle%
+      \F[-]{1}[\frac{x^3}{6}]
+      \F[+]{"O"}[\frac{x^3}{6}]
+      \F[+]{2}[\left(-\frac{x^3}{6} + \frac{ax^2}{2} \right)]
+      \F[+]{"A"}[\left(\frac{x^3}{6} - \frac{ax^2}{2} \right)]
+      \M[-]{2}[\frac{x^2}{2}]
+      \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
+      \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+      + C_{21} x
+      + C_{22}
+      \)}
+    \right]
+  \text,
+  \\[3mm]
+  w_3(x) & = \frac{1}{\I{3}\E{3}} \left[
+    \M[+]{"C"}[\frac{x^2}{2}]
+    \F[+]{"C"}[\left( \frac{cx^2}{2} - \frac{x^3}{6} \right)]
+    \p[+]{3}[\left( -\frac{x^2 c^2}{4} + \frac{cx^3}{6} - \frac{x^4}{24}\right)]
+    + C_{31}x
+    + C_{32}
+    \right]
+  \text.
+\end{align}
+
+\subsubsection{Az ismeretlenek meghatározása peremfeltételek segítségével}
+
+\input{differences/conditions.tex}
+
+Így kilenc egyenletünk és kilenc ismeretlenünk van. Ez mátrixosan,
+SI egységekben:
+\scriptsize
+\begin{equation}
+  \bgroup
+  \sifigures{2}
+  \sisci{}
+  \begin{bmatrix}
+    \directlua{H.printAkond()}
+  \end{bmatrix}
+  \egroup
+  \begin{bmatrix}
+    \directlua{H.printXParamkond()}
+  \end{bmatrix}
+  =
+  \siplaces{3}
+  \begin{bmatrix}
+    \directlua{H.printBkond()}
+  \end{bmatrix}
+  \text.
+  \label{eq:alma}
+\end{equation}
+\normalsize
+
+Az egyenletrendszer mátrix invertálással megoldható:
+\scriptsize
+\begin{equation}
+  \begin{bmatrix}
+    \directlua{H.printXParamkond()}
+  \end{bmatrix}
+  =
+  \bgroup
+  \sifigures{2}
+  \sisci{}
+  \begin{bmatrix}
+    \directlua{H.printAi()}
+  \end{bmatrix}
+  \egroup
+  \siplaces{3}
+  \begin{bmatrix}
+    \directlua{H.printBkond()}
+  \end{bmatrix}
+  \label{eq:alma-inverted}
+  \text.
+\end{equation}
+\normalsize
+
+Az egyenletrendszer megoldása numerikusan:
+\begin{equation}
+  \begin{bmatrix}
+    \directlua{H.printXParamkond()}
+  \end{bmatrix}
+  =
+  \sifigures{6}
+  \begin{bmatrix}
+    \directlua{H.printXkond()}
+  \end{bmatrix}
+  \mathrm{SI}
+  \text.
+  \label{eq:alma-sol}
+\end{equation}
+
+\subsubsection{Az analitikus módszerrel kapott függvények numerikusan}
+
+Helyettesítsük be az előbb kiszámolt konstansokat a keresett függvényekbe.
+
+\input{differences/sol-a/w}
+\input{differences/sol-a/phi}
+\input{differences/sol-a/M}

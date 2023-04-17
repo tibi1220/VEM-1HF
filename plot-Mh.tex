@@ -2,24 +2,19 @@
 
 \input{config/gateway}
 \input{config/math}
-\input{config/tikz.tex}
+\input{config/tikz}
 
 \begin{document}
 \begin{tikzpicture}
   \begin{axis}[
-    xmin=0,xmax=\lv{c}*1.05,
     ylabel={$M_h(x)\; [\mathrm{Nm}]$},
     xlabel={$x\; [\mathrm m]$},
-    axis x line=center,  axis y line=center,
-    enlarge y limits=.025,
+    xlabel style={at={(ticklabel* cs:1)},anchor=south},
+    ylabel style={at={(ticklabel* cs:1)},anchor=west},
     minor x tick num=4,
     minor y tick num=1,
-    axis line style={-to, thick},
-    grid=both,
-    grid style={line width=.1pt, draw=gray!20},
     major grid style={line width=.2pt,draw=gray!80},
     xtick={0, .25, ..., 1},
-    scaled y ticks=false,
     yticklabel style = {
         /pgf/number format/fixed,
         /pgf/number format/precision=0,
@@ -32,10 +27,6 @@
         /pgf/number format/.cd,
         fixed,fixed zerofill,precision=2,
       },
-    every major tick/.style = {
-        black, semithick,
-      },
-    /pgf/number format/.cd, use comma,
     ]
     \addplot[
       color=cyan!40!gray,

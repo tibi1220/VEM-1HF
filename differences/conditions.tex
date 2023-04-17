@@ -1,0 +1,37 @@
+A geometriai kényszerek, valamint $w(x)$ illetve $w'(x)$ függvény
+folytonosságából adódóan 7 peremfeltételt tudunk felírni:
+% \begin{noindent}
+\begin{luacode*}
+  tex.sprint [[ \begin{center} \def\arraystretch{1.2} \begin{tabular}{r l} ]]
+  tex.sprint [[ $\left.\begin{array}{c} w_1(a) = w_2(a) \\ w_2(b) = w_3(b) \end{array}\right\}$ & $w(x)$ folytonos, ]]
+  tex.sprint [[ \\ $\left.\begin{array}{c} w_1'(a) = w_2'(a) \\ w_2'(b) = w_3'(b) \end{array}\right\}$ & $w'(x)$ folytonos, ]]
+
+  local connections = V.parametric.connections
+  local len  = #connections
+
+  for i=1,len do
+    local type = connections[i].dof
+    local loc = connections[i].l
+
+    if type == 1 then
+      tex.sprint [[ \\$\left.\begin{array}{c} w( ]]
+      tex.sprint(loc ~= 'o' and loc or 0)
+      tex.sprint [[ ) = 0 \end{array}\right\}$ & görgős támasz]]
+    elseif type == 2 then
+      tex.sprint [[ \\$\left.\begin{array}{c} w( ]]
+      tex.sprint(loc ~= 'o' and loc or 0)
+      tex.sprint [[ ) = 0 \end{array}\right\}$ & csuklós támasz]]
+    elseif type == 3 then
+      tex.sprint [[ \\$\left.\begin{array}{c} w(c) = 0 \\ w'(c) = 0 \end{array}\right\}$ & befogás]]
+    end
+
+    if i == len then
+      tex.sprint "."
+    else
+      tex.sprint ","
+    end
+  end
+
+  tex.sprint [[ \end{tabular} \end{center} ]]
+\end{luacode*}
+% \end{noindent}

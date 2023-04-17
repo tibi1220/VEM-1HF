@@ -25,3 +25,10 @@
 \newcommandx{\silv}[3][3=]{\directlua{H.printSIVar { name="#1", unit="#2", dec="#3" }}}
 % raw access, no pretty print
 \newcommand{\dv}[1]{\directlua{H.printDirect(#1)}}
+
+% Optional commands for printing
+\newcommandx{\F}[3][1=,3=]{\directlua{H.optionallyPrintF([[#1]], #2, [[#3]])}}
+\newcommandx{\M}[3][1=,3=]{\directlua{H.optionallyPrintM([[#1]], #2, [[#3]])}}
+\newcommandx{\p}[3][1=,3=]{\directlua{H.optionallyPrintP([[#1]], #2, [[#3]])}}
+\newcommand{\E}[1]{\directlua{H.printParam("E", #1)}}
+\newcommand{\I}[1]{\directlua{H.printParam("I", #1)}}
