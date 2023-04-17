@@ -6,7 +6,7 @@
   V = getVariables {
       name = 'Sándor Tibor',
       neptun = 'C7XUDE',
-      code = { 1, 1, 3, 2, 1 }, -- Last number should stay 1!
+      code = { 2, 1, 3, 2, 1 }, -- Last number should stay 1!
     }
   P = V.parametric
 
@@ -25,5 +25,3 @@
 \newcommandx{\silv}[3][3=]{\directlua{H.printSIVar { name="#1", unit="#2", dec="#3" }}}
 % raw access, no pretty print
 \newcommand{\dv}[1]{\directlua{H.printDirect(#1)}}
-
-

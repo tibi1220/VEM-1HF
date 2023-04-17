@@ -99,9 +99,9 @@ return function(config)
   local d = D.d
   local E = D.E
 
-  local F_t = D.F_t
+  local F_t = D.F_t * D.code[5]
   local M_t = D.M_t
-  local p_t = D.p_t
+  local p_t = D.p_t * D.code[5]
 
   local a = D.a
   local b = D.b
@@ -115,7 +115,7 @@ return function(config)
 
   -- Beam elastic moduli
   local E_v1 = 4 * E
-  local E_v2 = 4
+  local E_v2 = E
 
   -- Beam areas
   local A_1 = d_1 ^ 2 * PI / 4
@@ -170,7 +170,7 @@ return function(config)
   local t
   -- Add F
   t = figure.forces.F * 2 - 1
-  F[t][1] = -F_t * D.code[5]
+  F[t][1] = -F_t
 
   -- Add M
   t = figure.forces.M * 2
@@ -179,7 +179,7 @@ return function(config)
   -- Add p
   for i = 1, 3 do
     t = figure.forces.p[i]
-    local q = t * p_t * LMat[i] / 2 * D.code[5]
+    local q = t * p_t * LMat[i] / 2
 
     F[i * 2 - 1][1] = F[i * 2 - 1][1] - q
     F[i * 2 + 0][1] = F[i * 2 + 0][1] - q * LMat[i] / 6
@@ -242,14 +242,14 @@ return function(config)
   end
 
   -- Sziltan
-  local F_1 = 0
-  local F_2 = 0
-  local F_3 = F_t
-  local M_2 = M_t
-  local M_3 = 0
-  local p_1 = p_t
-  local p_2 = p_t
-  local p_3 = 0
+  local F_1 = figure.forces.F == 1 and F_t or 0
+  local F_2 = figure.forces.F == 2 and F_t or 0
+  local F_3 = figure.forces.F == 3 and F_t or 0
+  local M_2 = M_t * (3 - figure.forces.M)
+  local M_3 = M_t * (figure.forces.M - 2)
+  local p_1 = p_t * figure.forces.p[1]
+  local p_2 = p_t * figure.forces.p[2]
+  local p_3 = p_t * figure.forces.p[3]
   local l_1 = LMat[1]
   local l_2 = LMat[2]
   local l_3 = LMat[3]
@@ -377,19 +377,17 @@ return function(config)
     }, -- 11
   }
 
-  -- Delete eqs: 3, 5
-  -- Delete variables: 1 3
-  local free = { 2, 4, 5, 6, 7, 8, 9, 10, 11 }
+  local eqs = figure.eqs
 
-  local Akond = matrix.subMatrix(A, free)
-  local xParamkond = matrix.subVector(xParam, free)
-  local bkond = matrix.subVector(bVec, free)
+  local Akond = matrix.subMatrix(A, eqs)
+  local xParamkond = matrix.subVector(xParam, eqs)
+  local bkond = matrix.subVector(bVec, eqs)
 
   local Ai = matrix.inversion(Akond)
 
   local xkond = matrix.multiplyMatrices(Ai, bkond)
 
-  local xcalc = matrix.extVector(xkond, free, 11)
+  local xcalc = matrix.extVector(xkond, eqs, 11)
 
   local F_O = xcalc[1][1]
   local F_A = xcalc[2][1]
@@ -490,6 +488,15 @@ return function(config)
     wMat = wMat,
     thetaMat = thetaMat,
     MMat = MMat,
+
+    F_1 = F_1,
+    F_2 = F_2,
+    F_3 = F_3,
+    M_2 = M_2,
+    M_3 = M_3,
+    p_1 = p_1,
+    p_2 = p_2,
+    p_3 = p_3,
   }
 
   for k, v in pairs(M) do

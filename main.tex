@@ -149,10 +149,10 @@ a \ref{table:lok}. táblázat foglalja össze.
 % subsection Megoldás végeselem módszerrel (end)
 
 \begin{equation}
-  \siplaces{3}\sifix{}
-  \begin{array}{*{9}{c}}
+  \begin{array}{c}
     \directlua{H.xd()}
   \end{array}
+  \label{eq:xd}
 \end{equation}
 
 \clearpage
@@ -162,15 +162,15 @@ a \ref{table:lok}. táblázat foglalja össze.
 \begin{figure}[H]
   \flushright
   \includestandalone{plot-v}
-  \hspace{5mm}
-  \caption{$v(x)$}
+  \hspace{5mm}\vspace{-3mm}
+  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott $v(x)$ lehajlásfüggvény}
   \label{fig:plot-v}
 \end{figure}
 
 \begin{figure}[H]
   \flushright
   \includestandalone{plot-phi}
-  \hspace{5mm}
+  \hspace{5mm}\vspace{-3mm}
   \caption{$\varphi(x)$}
   \label{fig:plot-phi}
 \end{figure}
@@ -178,7 +178,7 @@ a \ref{table:lok}. táblázat foglalja össze.
 \begin{figure}[H]
   \flushright
   \includestandalone{plot-Mh}
-  \hspace{5mm}
+  \hspace{5mm}\vspace{-3mm}
   \caption{$M_h(x)$}
   \label{fig:plot-Mh}
 \end{figure}
@@ -187,12 +187,6 @@ a \ref{table:lok}. táblázat foglalja össze.
 % subsection Megoldásfüggvények ábrázolás (end)
 
 
-
 % section Lehajlás-, és hajlítónyomatéki igénybevétel függvények (end)
 
 \end{document}
-
-
-
-
-

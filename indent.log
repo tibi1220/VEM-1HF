@@ -1,0 +1,24 @@
+INFO:  latexindent version 3.20.6, 2023-04-11, a script to indent .tex files
+       latexindent lives here: /usr/local/texlive/2023/texmf-dist/scripts/latexindent/
+       Mon Apr 17 10:29:53 2023
+       Filename: sol-a.tex
+INFO:  Processing switches:
+       -o|--outputfile: output to file
+INFO:  Directory for backup files and indent.log:
+       .
+INFO:  YAML settings read: defaultSettings.yaml
+       Reading defaultSettings.yaml from /usr/local/texlive/2023/texmf-dist/scripts/latexindent/defaultSettings.yaml
+INFO:  YAML reading settings
+       The config file in "/Users/tiborsandor/.indentconfig.yaml" will be read
+WARN:  The paths field cannot be read from /Users/tiborsandor/.indentconfig.yaml; this means it is either empty or contains invalid YAML
+       See https://latexindentpl.readthedocs.io/en/latest/sec-indent-config-and-settings.html for an example
+INFO:  -o switch active: output file check
+INFO:  Phase 1: searching for objects
+INFO:  Phase 2: finding surrounding indentation
+INFO:  Phase 3: indenting objects
+INFO:  Phase 4: final indentation check
+INFO:  Output routine:
+       Outputting to file sol-a.tex
+       --------------
+INFO:  Please direct all communication/issues to:
+        https://github.com/cmhughes/latexindent.pl
