@@ -1,4 +1,4 @@
-local V = require 'lua.calc' { code = { 4, 1, 3, 2, 1 }, name = 1, neptun = 2 }
+local V = require 'lua.calc' { code = { 2, 1, 3, 2, 1 }, name = 1, neptun = 2 }
 local matrix = require 'lua.matrix'
 
 local det = matrix.determinant(V.Akond)
@@ -30,4 +30,4 @@ end
 
 print(V.F_1, V.F_2, V.F_3)
 print(V.p_1, V.p_2, V.p_3)
-print(V.M_2, V.M_3)
+print(0, V.M_2, V.M_3)
