@@ -1,0 +1,53 @@
+name: Build and Release LaTeX Document
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Get Current Date
+        id: get_date
+        run: echo "date=$(date +'%Y-%m-%d--%H-%M-%S')" >> $GITHUB_OUTPUT
+        
+      - name: Checkout repo
+        id: checkout_repo
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX Document
+        id: compile_latex
+        uses: ktht/latex-action@v3
+        with:
+          args: -r .latexmkrc
+          root_file: main.tex
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_date.outputs.date }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Document to Release
+        id: upload_latex
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/main.pdf
+          asset_name: vem-1hf-ST.pdf
+          asset_content_type: application/pdf
+          
+      - name: Upload Logfile to Release
+        id: upload_log
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/main.log
+          asset_name: logfile.log
+          asset_content_type: text/log
