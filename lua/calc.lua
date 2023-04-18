@@ -48,7 +48,7 @@ local function getV(L, a, Ue)
     },
   }
 
-  local polinomial = { [0] = 0, [1] = 0, [2] = 0, [3] = 0 }
+  local polinomial = { [0] = 0, [1] = 0, [2] = 0, [3] = 0, [4] = 0 }
 
   for i = 0, 3 do
     for j = 1, 4 do
@@ -80,6 +80,9 @@ local function getMh(phi, I, E)
   return {
     [0] = -I * E * phi[1],
     [1] = -2 * I * E * phi[2],
+    [2] = 0,
+    [3] = 0,
+    [4] = 0,
   }
 end
 
@@ -88,28 +91,44 @@ local function getM(theta, I, E)
     [0] = -I * E * theta[1],
     [1] = -2 * I * E * theta[2],
     [2] = -3 * I * E * theta[3],
+    [3] = 0,
+    [4] = 0,
   }
 end
 
 local function calculateNumeric(vMat, phiMat, MhMat, p)
-  local numeric = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
+  local numeric =
+    { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
 
   for i = 1, 4 do
     for k = 0, 4 do
-      local v, phi, Mh
-      if i == 1 or i == 2 then
+      local v, phi, M1, M2
+      if i == 1 then
         v = vMat[1][k] or 0
         phi = phiMat[1][k] or 0
-        Mh = MhMat[1][k] or 0
+        M1 = 0
+        M2 = MhMat[1][k] or 0
+      elseif i == 2 then
+        v = vMat[1][k] or 0
+        phi = phiMat[1][k] or 0
+        M1 = MhMat[1][k] or 0
+        M2 = MhMat[2][k] or 0
+      elseif i == 3 then
+        v = vMat[3][k] or 0
+        phi = phiMat[3][k] or 0
+        M1 = MhMat[2][k] or 0
+        M2 = MhMat[3][k] or 0
       else
         v = vMat[3][k] or 0
         phi = phiMat[3][k] or 0
-        Mh = MhMat[3][k] or 0
+        M1 = MhMat[3][k] or 0
+        M2 = 0
       end
 
       numeric[1][i] = numeric[1][i] + p[i] ^ k * v
       numeric[2][i] = numeric[2][i] + p[i] ^ k * phi
-      numeric[3][i] = numeric[3][i] + p[i] ^ k * Mh
+      numeric[3][i] = numeric[3][i] + p[i] ^ k * M1
+      numeric[4][i] = numeric[4][i] + p[i] ^ k * M2
     end
   end
 
@@ -416,7 +435,6 @@ return function(config)
 
   local F_O = xcalc[1][1]
   local F_A = xcalc[2][1]
-  local F_B = xcalc[3][1]
   local F_C = xcalc[4][1]
   local M_C = xcalc[5][1]
   local C_11 = xcalc[6][1]
@@ -457,6 +475,36 @@ return function(config)
     thetaMat[i] = getTheta(wMat[i])
     MMat[i] = getM(thetaMat[i], IMat[i], EMat[i])
   end
+
+  -- Calculate error
+  local part
+  local p = c / 2
+
+  if p < a then
+    part = 1
+  elseif p < b then
+    part = 2
+  else
+    part = 3
+  end
+
+  local MErr = { a = 0, b = 0, err = 0 }
+  local vErr = { a = 0, b = 0, err = 0 }
+
+  for i = 4, 0, -1 do
+    local w = wMat[part][i] or 0
+    local v = vMat[part][i] or 0
+    local M = MMat[part][i] or 0
+    local Mh = MhMat[part][i] or 0
+
+    vErr.a = vErr.a + w * p ^ i
+    vErr.b = vErr.b + v * p ^ i
+    MErr.a = MErr.a + M * p ^ i
+    MErr.b = MErr.b + Mh * p ^ i
+  end
+
+  vErr.err = (vErr.b - vErr.a) / vErr.a
+  MErr.err = (MErr.b - MErr.a) / MErr.a
 
   local M = {
     d_1 = d_1,
@@ -523,8 +571,21 @@ return function(config)
     p_2 = p_2,
     p_3 = p_3,
 
+    -- Numeric values
     aNum = calculateNumeric(wMat, thetaMat, MMat, { 0, a, b, c }),
     bNum = calculateNumeric(vMat, phiMat, MhMat, { 0, a, b, c }),
+
+    -- Errors
+    MErr = MErr.err,
+    vErr = vErr.err,
+
+    MErrP = MErr.err * 100,
+    vErrP = vErr.err * 100,
+
+    wp = vErr.a,
+    vp = vErr.b,
+    Mp = MErr.a,
+    Mhp = MErr.b,
   }
 
   for k, v in pairs(M) do

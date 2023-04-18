@@ -1,6 +1,7 @@
 A függvényértékek a nevezetes pontokban:
 \begin{center}
-\def\arraystretch{1.5}
+\sifix{}
+\def\arraystretch{1.25}
 \begin{luacode*}
   tex.sprint[[\begin{tabular}{c|cccc|}]]
   tex.sprint[[& $x = 0$ & $x = a$ & $x = b$ & $x = c$ \\\hline]]
@@ -33,9 +34,9 @@ A függvényértékek a nevezetes pontokban:
 
   tex.sprint [[\\]]
 
-  tex.sprint [[$M_h(x)$]]
+  tex.sprint [[$M_h(x)$ & $-$]]
 
-  for i=1,4 do
+  for i=2,4 do
     local num = V.bNum[3][i]
     tex.sprint [[&]]
     if math.abs(num) < 1e-10 then
@@ -45,7 +46,21 @@ A függvényértékek a nevezetes pontokban:
     end
   end
 
-  tex.sprint [[\\\hline]]
+  tex.sprint [[\\]]
+
+  tex.sprint [[$M_h(x)$]]
+
+  for i=1,3 do
+    local num = V.bNum[4][i]
+    tex.sprint [[&]]
+    if math.abs(num) < 1e-10 then
+      tex.sprint [[$0\,\mathrm{Nm}$]]
+    else
+      H.printSIDirect { value = num, unit="Nm", dec=3 }
+    end
+  end
+
+  tex.sprint [[&$-$\\\hline]]
 
   tex.sprint[[\end{tabular}]]
 \end{luacode*}

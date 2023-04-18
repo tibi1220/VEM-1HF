@@ -161,8 +161,74 @@ a \ref{table:lok}. táblázat foglalja össze.
   \hfill
   \includestandalone{plot-Mh}
   \vspace{-3mm}
-  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott hajlítónyomatéli függvény}
+  \caption{VEM és \textcolor{cyan!40!black}{ana}\textcolor{yellow!40!black}{liti}\textcolor{red!40!black}{kus} módszerekkel kapott hajlítónyomatéki függvény}
   \label{fig:plot-Mh}
 \end{figure}
+
+\section{Hibaszámítás}
+
+Feladatunk, hogy összehasonlítsuk a $p = (c / 2)$ pontban az analitikus és 
+végeselemes módszerrel kapott lehajlás-, és hajlítónyomatéki függvényeket.
+A függvényértékek numerikusan:
+
+\hspace{4cm} Analitikus: \hfill VEM: \hspace{5cm}
+\begin{gather}
+  w(p) = \silv{wp}{m}[8]
+  \hspace{3cm}
+  v(p) = \silv{vp}{m}[8]
+  \\
+  \spec M_h(p) = \silv{Mp}{Nm}[5]
+  \hspace{3cm}
+  M_h(p) = \silv{Mhp}{Nm}[5]
+\end{gather}
+
+A relatív hiba a súlypontvonal elmozdulás esetén:
+\begin{equation}
+  \delta_{w/v}(p) 
+  = \frac{v(p) - w(p)}{w(p)}
+  = \silv{vErr}{}[6]
+  = \silv{vErrP}{}[4] \%
+  \text.
+  \label{eq:v-rel}
+\end{equation}
+
+A relatív hiba a hajlító igénybevétel esetén:
+\begin{equation}
+  \delta_{\spec M/M}(p) 
+  = \frac{M_h(p) - \spec M_h(p)}{\spec M_h(p)}
+  = \silv{MErr}{}[6]
+  = \silv{MErrP}{}[4] \%
+  \text.
+  \label{eq:M-rel}
+\end{equation}
+
+\clearpage
+\tableofcontents
+
+\vfill
+
+\section*{Felhasznált szoftverek}
+
+\begin{itemize}
+  \item \href{https://neovim.io}{\texttt{Neovim}}
+        \tabto{3.9cm} – \tabto{4.7cm}
+        Open Source szövegszerkesztő
+
+  \item \texttt{Lua\LaTeX}
+        \tabto{3.9cm} – \tabto{4.7cm}
+        \LaTeX{} fordító
+
+  \item \texttt{Ti\textit{k}Z}
+        \tabto{3.9cm} – \tabto{4.7cm}
+        Vektorgrafika
+
+  \item \texttt{lua}
+        \tabto{3.9cm} – \tabto{4.7cm}
+        Számítások elvégzése
+\end{itemize}
+
+A házi feladat teljes forráskódja -- beleértve a számolást és dokumentációt --
+megtekinthető az alábbi linken:
+\texttt{\href{https://github.com/tibi1220/VEM-1HF}{https://github.com/tibi1220/VEM-1HF}}
 
 \end{document}
