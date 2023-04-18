@@ -7,7 +7,7 @@
 
 \begin{document}
 \begin{tikzpicture}[thick]
-  \def\lg{6mm}
+  \def\lg{7mm}
   \def\str{1.2}
 
   \foreach \i in {0,1,...,7}{
@@ -36,7 +36,7 @@
 
       tex.sprint(
         [[\begin{scope}[xshift=-12*\lg*\str, yshift=-]]
-          .. i - .25 ..
+          .. i - .1 ..
         [[*12mm] \node[rectangle, minimum width=\lg, minimum height=\lg, draw=]]
           .. colors[i] ..
         [[,fill=]]

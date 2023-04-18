@@ -64,7 +64,7 @@
     \addplot[red!20,    opacity=0.4] fill between [of=f3 and g3];
 
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
       ultra thick,
       smooth,
@@ -72,7 +72,7 @@
     ]
     {x^2 * \dv{V.phiMat[1][2]} + x * \dv{V.phiMat[1][1]} + \dv{V.phiMat[1][0]}};
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
       ultra thick,
       smooth,
@@ -80,7 +80,7 @@
     ]
     {x^2 * \dv{V.phiMat[2][2]} + x * \dv{V.phiMat[2][1]} + \dv{V.phiMat[2][0]}};
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
       ultra thick,
       smooth,

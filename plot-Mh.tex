@@ -65,25 +65,25 @@
     \addplot[red!20,    opacity=0.4] fill between [of=f3 and g3];
 
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
-      very thick,
+      ultra thick,
       smooth,
       domain=0:\lv{a},
     ]
     {x * \dv{V.MhMat[1][1]} + \dv{V.MhMat[1][0]}};
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
-      very thick,
+      ultra thick,
       smooth,
       domain=\lv{a}:\lv{b},
     ]
     {x * \dv{V.MhMat[2][1]} + \dv{V.MhMat[2][0]}};
     \addplot[
-      color=black, dashed,
+      color=black, dash pattern=on 6pt off 4pt,
       samples=50,
-      very thick,
+      ultra thick,
       smooth,
       domain=\lv{b}:\lv{c},
     ]

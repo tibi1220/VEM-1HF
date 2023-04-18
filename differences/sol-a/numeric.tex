@@ -1,8 +1,10 @@
-A függvényértékek a nevezetes pontokban:
-\begin{center}
+% Az analitikus módszerrel kapott függvények értékei a nevezetes pontokban:
+\begin{table}[H]
+\centering
+\caption{Az analitikus módszerrel kapott függvényértékek a nevezetes pontokban}
 \def\arraystretch{1.25}
 \begin{luacode*}
-  tex.sprint[[\begin{tabular}{c|cccc|}]]
+  tex.sprint[[\begin{tabular}{c|c|c|c|c|}]]
   tex.sprint[[& $x = 0$ & $x = a$ & $x = b$ & $x = c$ \\\hline]]
 
   tex.sprint [[$w(x)$]]
@@ -63,4 +65,4 @@ A függvényértékek a nevezetes pontokban:
 
   tex.sprint[[\end{tabular}]]
 \end{luacode*}
-\end{center}
+\end{table}

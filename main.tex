@@ -42,23 +42,14 @@ a valóságban $\SI{10}{cm}$-nek felel meg.
 \begin{figure}[H]
   \centering
   \includestandalone{construction}
+  \vspace{-2mm}
   \caption{Méretarányos ábra a tartóról}
   \label{fig:construction}
 \end{figure}
-
-
+\vspace{-10mm}
 
 \section{Lehajlás-, és hajlítónyomatéki igénybevétel függvények} % (fold)
 
-\begin{figure}[H]
-  \centering
-  \includestandalone{numbering}
-  \vspace{-2mm}
-  \caption{A csomópontok és elemek számozása}
-  \label{fig:numbering}
-\end{figure}
-
-\vspace{-2mm}
 A keresett függvényeket először szilárdságtani, majd pedig végeselemes
 módszer segítségével fogjuk meghatározni. Számítsuk ki először azokat a
 paramétereket, melyeket mindkét megoldás fel fogunk használni.
@@ -70,8 +61,8 @@ paramétereket, melyeket mindkét megoldás fel fogunk használni.
     \item $d_1 = d = \silv{d_1}{m}$
           \sisci{} \siplaces{0}
     \item $E_1 = 4E = \silv{E_1}{Pa}$
-          \siplaces{4}
-    \item $A_1 = \dfrac{{d_1}^2 \pi}{4} = \silv{A_1}{m^2}$
+    %       \siplaces{4}
+    % \item $A_1 = \dfrac{{d_1}^2 \pi}{4} = \silv{A_1}{m^2}$
           \siplaces{4}
     \item $I_1 = \dfrac{{d_1}^4 \pi}{64} = \silv{I_1}{m^4}$
   \end{itemize}
@@ -80,56 +71,13 @@ paramétereket, melyeket mindkét megoldás fel fogunk használni.
     \item $d_2 = 2d = \silv{d_2}{m}$
           \sisci{} \siplaces{0}
     \item $E_2 = E = \silv{E_2}{Pa}$
-          \siplaces{4}
-    \item $A_2 = \dfrac{{d_2}^2 \pi}{4} = \silv{A_2}{m^2}$
+    %       \siplaces{4}
+    % \item $A_2 = \dfrac{{d_2}^2 \pi}{4} = \silv{A_2}{m^2}$
           \siplaces{4}
     \item $I_2 = \dfrac{{d_2}^4 \pi}{64} = \silv{I_2}{m^4}$
   \end{itemize}
 \end{multicols}
 \egroup
-
-Az egyes elemekhez és csomópontokhoz hozzárendelt sorszámok a
-\ref{fig:numbering}. ábra tartalmazza.
-
-A csomópontok koordinátáit az \ref{table:U}. táblázat tartalmazza.
-\begin{table}[H]
-  \def\arraystretch{1.1}
-  \centering
-  \caption{A csomópontok koordinátái}
-  \begin{tabular}{| c || X{1.5cm} | X{1.5cm} |}
-    \hline
-    Csp.    & x \,[\text{m}] & y \,[\text{m}]
-    \\ \hline \hline
-    1 ($O$) & \SI{0}{m}      & \SI{0}{m}
-    \\ \hline
-    2 ($A$) & \silv{a}{m}    & \SI{0}{m}
-    \\ \hline
-    3 ($B$) & \silv{b}{m}    & \SI{0}{m}
-    \\ \hline
-    4 ($C$) & \silv{c}{m}    & \SI{0}{m}
-    \\ \hline
-  \end{tabular}
-  \label{table:U}
-\end{table}
-
-Az egyes elemekhez tartozó csomópontokat, valamint további paramétereiket
-a \ref{table:lok}. táblázat foglalja össze.
-\begin{table}[H]
-  \def\arraystretch{1.1}
-  \centering
-  \caption{Elem -- csomópont összerendelések}
-  \begin{tabular}{| c || c | c || *{5}{>{$}c<{$}|}}
-    \hline
-    Elem & 1. csp & 2. csp & d                          & L         & A                          & E                          & I                          \\ \hline \hline
-    1    & 1      & 2      & d_\dv{P.beams[1]['value']} & L_1 = a-0 & A_\dv{P.beams[1]['value']} & E_\dv{P.beams[1]['value']} & I_\dv{P.beams[1]['value']} \\ \hline
-    2    & 2      & 3      & d_\dv{P.beams[2]['value']} & L_2 = b-a & A_\dv{P.beams[2]['value']} & E_\dv{P.beams[2]['value']} & I_\dv{P.beams[2]['value']} \\ \hline
-    3    & 3      & 4      & d_\dv{P.beams[3]['value']} & L_3 = c-b & A_\dv{P.beams[3]['value']} & E_\dv{P.beams[3]['value']} & I_\dv{P.beams[3]['value']} \\ \hline
-  \end{tabular}
-  \label{table:lok}
-\end{table}
-
-
-
 
 \subsection{Megoldás differenciálegyenlettel} % (fold)
 \input{sol-a}
@@ -137,9 +85,10 @@ a \ref{table:lok}. táblázat foglalja össze.
 \subsection{Megoldás végeselem módszerrel} % (fold)
 \input{sol-b}
 
-\clearpage
 \subsection{Megoldásfüggvények ábrázolása} % (fold)
-\label{sub:Megoldásfüggvények ábrázolása}
+
+\input{differences/sol-a/numeric}
+\input{differences/sol-b/numeric}
 
 \begin{figure}[H]
   \hfill
@@ -177,9 +126,9 @@ A függvényértékek numerikusan:
   \hspace{3cm}
   v(p) = \silv{vp}{m}[8]
   \\
-  \spec M_h(p) = \silv{Mp}{Nm}[5]
+  \spec M_h(p) = \silv{Mp}{Nm}[3]
   \hspace{3cm}
-  M_h(p) = \silv{Mhp}{Nm}[5]
+  M_h(p) = \silv{Mhp}{Nm}[3]
 \end{gather}
 
 A relatív hiba a súlypontvonal elmozdulás esetén:

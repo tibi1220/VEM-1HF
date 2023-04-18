@@ -6,11 +6,13 @@
 \begin{figure}[H]
   \centering
   \includestandalone{szta}
+  \vspace{-2mm}
   \caption{A szerkezetet szabadtestábrája}
   \label{fig:szta}
 \end{figure}
+\pagebreak
 
-Az $y$ és $z$ irányú egyensúlyi egyenleteket a \ref{fig:szta}. ábra alapján:
+Az $y$ és $z$ irányú egyensúlyi egyenletek a \ref{fig:szta}. ábra alapján:
 \begin{align}
   \sum F_y = 0 \quad & \rightarrow \quad
   \F[+]{"O"}
@@ -20,10 +22,13 @@ Az $y$ és $z$ irányú egyensúlyi egyenleteket a \ref{fig:szta}. ábra alapjá
   \F[-]{1}
   \F[-]{2}
   \F[-]{3}
-  \p[-]{1}[l_1]
-  \p[-]{2}[l_2]
-  \p[-]{3}[l_3]
+  % \p[-]{1}[l_1]
+  % \p[-]{2}[l_2]
+  % \p[-]{3}[l_3]
+  \p[-]{1}[(l_1 + l_2)]
+  \p[-]{3}[(l_2 + l_3)]
   = 0
+  \text,
   \\
   \sum M_O = 0 \quad & \rightarrow \quad
   \F[+]{"A"}[a]
@@ -34,9 +39,13 @@ Az $y$ és $z$ irányú egyensúlyi egyenleteket a \ref{fig:szta}. ábra alapjá
   \M[+]{"C"}
   \F[-]{2}[a]
   \F[-]{3}[b]
-  \p[-]{1}[l_1 \left(\frac{l_1}{2}\right)]
-  \p[-]{2}[l_2 \left(a + \frac{l_2}{2}\right)]
-  \p[-]{3}[l_3 \left(b + l_2 + \frac{l_3}{2}\right)]
+  % \p[-]{1}[l_1 \left(\frac{l_1}{2}\right)]
+  % \p[-]{2}[l_2 \left(a + \frac{l_2}{2}\right)]
+  % \p[-]{3}[l_3 \left(b + l_2 + \frac{l_3}{2}\right)]
+  \p[-]{1}{\frac{(l_1 + l_2)^2}{2}}
+  \p[-]{3}[(l_2 + l_3)\left( l_1 \frac{l_2 + l_3}{2} \right)]
+  = 0
+  \text.
 \end{align}
 
 \subsubsection{A rugalmas szál differenciálegyenlete}
@@ -74,8 +83,10 @@ Az egyes szakaszok hajlítónyomatéki igénybevételi függvénye:
   \F[+]{2}[(x - a)]
   \F[-]{"A"}[(x - a)]
   \M[+]{2}
-  \p[+]{1}[a \left( x - \frac{a}{2} \right)]
-  \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  % \p[+]{1}[a \left( x - \frac{a}{2} \right)]
+  % \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  \p[+]{1}[\frac{x^2}{2}]
+  \p[+]{3}[\frac{\left( x - a \right)^2 }{2}]
   \text,
   \\
   \spec M_{h3}(x) & =
@@ -91,9 +102,9 @@ Ezen függvények ismeretében a differenciálegyenletek:
 
 Első szakasz: $x \in (0;a)$
 \begin{align}
-  - \I{1} \E{1} w_1''(x) & =
-  \spec M_{h1}(x)
-  \\
+  % - \I{1} \E{1} w_1''(x) & =
+  % \spec M_{h1}(x)
+  % \\
   - \I{1} \E{1} w_1''(x) & =
   \F[+]{1}[x]
   \F[-]{"O"}[x]
@@ -122,19 +133,20 @@ Első szakasz: $x \in (0;a)$
 \end{align}
 
 Második szakasz: $x \in (a;b)$
-\par\vspace{-5mm}\KOMAoptions{fontsize=10pt}
 \begin{align}
-  - \I{2} \E{2} w_2''(x) & =
-  \spec M_{h2}(x)
-  \\
+  % - \I{2} \E{2} w_2''(x) & =
+  % \spec M_{h2}(x)
+  % \\
   - \I{2} \E{2} w_2''(x) & =
   \F[+]{1}[x]
   \F[-]{"O"}[x]
   \F[+]{2}[(x - a)]
   \F[-]{"A"}[(x - a)]
   \M[+]{2}
-  \p[+]{1}[a \left( x - \frac{a}{2} \right)]
-  \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  % \p[+]{1}[a \left( x - \frac{a}{2} \right)]
+  % \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
+  \p[+]{1}[\frac{x^2}{2}]
+  \p[+]{3}[\frac{\left( x - a \right)^2 }{2}]
   \op{\cdot(-1)}
   \\
   \I{2} \E{2} w_2''(x)   & =
@@ -143,8 +155,10 @@ Második szakasz: $x \in (a;b)$
   \F[+]{2}[(-x + a)]
   \F[+]{"A"}[(x - a)]
   \M[-]{2}
-  \p[+]{1}[\left(-a x + \frac{a^2}{2} \right)]
-  \p[+]{2}[\left(-\frac{x^2}{2} + x a - \frac{a^2}{2}\right)]
+  % \p[+]{1}[\left(-a x + \frac{a^2}{2} \right)]
+  % \p[+]{2}[\left(-\frac{x^2}{2} + x a - \frac{a^2}{2}\right)]
+  \p[-]{1}[\frac{x^2}{2}]
+  \p[+]{3}[\left(-\frac{x^2}{2} + x a - \frac{a^2}{2}\right)]
   \opint
   \\
   \I{2} \E{2} w_2(x)     & =
@@ -153,8 +167,10 @@ Második szakasz: $x \in (a;b)$
   \F[+]{2}[\left(-\frac{x^2}{2} + ax \right)]
   \F[+]{"A"}[\left(\frac{x^2}{2} - ax \right)]
   \M[-]{2}[x]
-  \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
-  \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+  % \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
+  % \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+  \p[-]{1}[\frac{x^3}{6}]
+  \p[+]{3}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
   + C_{21}
   \opint
   \\
@@ -164,18 +180,19 @@ Második szakasz: $x \in (a;b)$
   \F[+]{2}[\left(-\frac{x^3}{6} + \frac{ax^2}{2} \right)]
   \F[+]{"A"}[\left(\frac{x^3}{6} - \frac{ax^2}{2} \right)]
   \M[-]{2}[\frac{x^2}{2}]
-  \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
-  \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+  % \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
+  % \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+  \p[-]{1}[\frac{x^4}{24}]
+  \p[+]{3}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
   + C_{21} x
   + C_{22}
 \end{align}
 
-\KOMAoptions{fontsize=12pt}
 Harmadik szakasz: $x \in (b;c)$
 \begin{align}
-  - \I{3} \E{3} w_3''(x) & =
-  \spec M_{h3}(x)
-  \\
+  % - \I{3} \E{3} w_3''(x) & =
+  % \spec M_{h3}(x)
+  % \\
   - \I{3} \E{3} w_3''(x) & =
   \M[-]{"C"}
   \F[-]{"C"}[(c - x)]
@@ -226,8 +243,10 @@ A szögelfordulás függvények paraméteresen:
     \F[+]{2}[\left(-\frac{x^2}{2} + ax \right)]
     \F[+]{"A"}[\left(\frac{x^2}{2} - ax \right)]
     \M[-]{2}[x]
-    \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
-    \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+    % \p[+]{1}[\left(-\frac{a x^2}{2} + \frac{a^2 x}{2} \right)]
+    % \p[+]{2}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
+    \p[-]{1}[\frac{x^3}{6}]
+    \p[+]{3}[\left(-\frac{x^3}{6} + \frac{x^2 a}{2} - \frac{x a^2}{2}\right)]
     + C_{21}
     \right]
   \text,
@@ -254,17 +273,17 @@ A lehajlás függvények pedig:
   \text,
   \\[3mm]
   w_2(x) & = \frac{1}{\I{2}\E{2}} \left[
-    \scalebox{.85}{\(\displaystyle%
-      \F[-]{1}[\frac{x^3}{6}]
-      \F[+]{"O"}[\frac{x^3}{6}]
-      \F[+]{2}[\left(-\frac{x^3}{6} + \frac{ax^2}{2} \right)]
-      \F[+]{"A"}[\left(\frac{x^3}{6} - \frac{ax^2}{2} \right)]
-      \M[-]{2}[\frac{x^2}{2}]
-      \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
-      \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
-      + C_{21} x
-      + C_{22}
-      \)}
+    \F[-]{1}[\frac{x^3}{6}]
+    \F[+]{"O"}[\frac{x^3}{6}]
+    \F[+]{2}[\left(-\frac{x^3}{6} + \frac{ax^2}{2} \right)]
+    \F[+]{"A"}[\left(\frac{x^3}{6} - \frac{ax^2}{2} \right)]
+    \M[-]{2}[\frac{x^2}{2}]
+    % \p[+]{1}[\left(-\frac{a x^3}{6} + \frac{a^2 x^2}{4} \right)]
+    % \p[+]{2}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+    \p[-]{1}[\frac{x^4}{24}]
+    \p[+]{3}[\left(-\frac{x^4}{24} + \frac{x^3 a}{6} - \frac{x^2 a^2}{4}\right)]
+    + C_{21} x
+    + C_{22}
     \right]
   \text,
   \\[3mm]
@@ -351,6 +370,6 @@ Helyettesítsük be az előbb kiszámolt konstansokat a keresett függvényekbe.
 \input{differences/sol-a/w}
 \input{differences/sol-a/phi}
 \input{differences/sol-a/M}
-\input{differences/sol-a/numeric}
+% \input{differences/sol-a/numeric}
 
 A függvények kirajzolva a \pageref{fig:plot-v}. oldalon találhatóak meg.

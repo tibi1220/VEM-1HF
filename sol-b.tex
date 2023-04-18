@@ -1,3 +1,52 @@
+\subsubsection{Az elemek és csomópontok általános adatai}
+
+Az egyes elemekhez és csomópontokhoz hozzárendelt sorszámok a
+\ref{fig:numbering}. ábra tartalmazza.
+
+\begin{figure}[H]
+  \centering
+  \includestandalone{numbering}
+  \caption{A csomópontok és elemek számozása}
+  \label{fig:numbering}
+\end{figure}
+
+A csomópontok koordinátáit az \ref{table:U}. táblázat tartalmazza.
+\begin{table}[H]
+  \def\arraystretch{1.1}
+  \centering
+  \caption{A csomópontok koordinátái}
+  \begin{tabular}{| c || X{1.5cm} | X{1.5cm} |}
+    \hline
+    Csp.    & x \,[\text{m}] & y \,[\text{m}]
+    \\ \hline \hline
+    1 ($O$) & \SI{0}{m}      & \SI{0}{m}
+    \\ \hline
+    2 ($A$) & \silv{a}{m}    & \SI{0}{m}
+    \\ \hline
+    3 ($B$) & \silv{b}{m}    & \SI{0}{m}
+    \\ \hline
+    4 ($C$) & \silv{c}{m}    & \SI{0}{m}
+    \\ \hline
+  \end{tabular}
+  \label{table:U}
+\end{table}
+
+Az egyes elemekhez tartozó csomópontokat, valamint további paramétereiket
+a \ref{table:lok}. táblázat foglalja össze.
+\begin{table}[H]
+  \def\arraystretch{1.1}
+  \centering
+  \caption{Elem -- csomópont összerendelések}
+  \begin{tabular}{| c || c | c || *{5}{>{$}c<{$}|}}
+    \hline
+    Elem & 1. csp & 2. csp & d                          & L         & A                          & E                          & I                          \\ \hline \hline
+    1    & 1      & 2      & d_\dv{P.beams[1]['value']} & L_1 = a-0 & A_\dv{P.beams[1]['value']} & E_\dv{P.beams[1]['value']} & I_\dv{P.beams[1]['value']} \\ \hline
+    2    & 2      & 3      & d_\dv{P.beams[2]['value']} & L_2 = b-a & A_\dv{P.beams[2]['value']} & E_\dv{P.beams[2]['value']} & I_\dv{P.beams[2]['value']} \\ \hline
+    3    & 3      & 4      & d_\dv{P.beams[3]['value']} & L_3 = c-b & A_\dv{P.beams[3]['value']} & E_\dv{P.beams[3]['value']} & I_\dv{P.beams[3]['value']} \\ \hline
+  \end{tabular}
+  \label{table:lok}
+\end{table}
+
 A végeselem modellünkben jelenleg 4 csomópont van, ezért a rendszernek összesen
 $4 \cdot 2 = 8$ szabadsági foka van. A rendszer csomóponti elmozdulásvektora
 emiatt $8$ elemű:
@@ -38,6 +87,7 @@ Az egyes elemekhez tartozó elmozdulásvektorok:
 
 Határozzuk meg az egyes elemekhez tartozó merevségi mátrixokat. Egy ilyen mátrix
 síkbeli gerendák esetén az alábbi alakot veszi fel:
+
 \begin{equation}
   \rmat K_i
   = \frac{I_i E_i}{L_i}
@@ -232,5 +282,5 @@ A rugalmas szál differenciálegyenlete alapján a hajlítónyomatéki függvén
 
 A függvények numerikusan:
 \input{differences/sol-b/Mh}
-\input{differences/sol-b/numeric}
+% \input{differences/sol-b/numeric}
 A függvények kirajzolva a \pageref{fig:plot-v}. oldalon találhatóak meg.
