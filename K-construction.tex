@@ -7,7 +7,7 @@
 
 \begin{document}
 \begin{tikzpicture}[thick]
-  \def\lg{8mm}
+  \def\lg{6mm}
   \def\str{1.2}
 
   \foreach \i in {0,1,...,7}{
@@ -35,8 +35,8 @@
       local dof = D[i]
 
       tex.sprint(
-        [[\begin{scope}[xshift=-9*\lg*\str, yshift=-]]
-          .. i + .3 ..
+        [[\begin{scope}[xshift=-12*\lg*\str, yshift=-]]
+          .. i - .25 ..
         [[*12mm] \node[rectangle, minimum width=\lg, minimum height=\lg, draw=]]
           .. colors[i] ..
         [[,fill=]]
@@ -69,9 +69,9 @@
             [[ \node at (n]]
               .. dof[x]-1 .. dof[y]-1 ..
             [[)[rectangle, minimum width=]]
-              .. (i) * 2 ..
+              .. (i) + 2 ..
             [[*1mm, minimum height=]]
-              .. (i) * 2 ..
+              .. (i) + 2 ..
             [[*1mm, draw=]]
               .. colors[i] ..
             [[,fill=]]

@@ -1,0 +1,93 @@
+\documentclass[12pt]{standalone}
+
+\input{config/gateway}
+\input{config/math}
+\input{config/tikz}
+
+\begin{document}
+\begin{tikzpicture}[thick, scale=10]
+  % General Settings
+  \def\l{1.5mm}
+
+  % Coordinates
+  \coordinate (o) at (0,0);
+  \coordinate (a) at (\lv{a}*1.2,0);
+  \coordinate (b) at (\lv{b}*1.2,0);
+  \coordinate (c) at (\lv{c}*1.2,0);
+
+  % Draw p_t
+  \draw[fill=yellow!10, draw=yellow!40!black, ultra thick]
+    (\dv{P.p_t.b}) -- ++(0,1.1mm) -| (\dv{P.p_t.e});
+
+  \node[dot] (O) at (o) {}; \node[below left] at (O) {$O$};
+  \node[dot] (A) at (a) {}; \node[below left] at (A) {$A$};
+  \node[dot] (B) at (b) {}; \node[below left] at (B) {$B$};
+  \node[dot] (C) at (c) {}; \node[below left] at (C) {$C$};
+
+  % Connect joints
+  \draw[ultra thick] (O) -- (A) -- (B) -- (C);
+
+  % Draw coordinate system
+  \draw[to-to, draw=cyan!40!black, very thick]
+    (-2.5mm,.5mm) node[below left] {$y$} 
+    |- (-1mm,-1mm) node[below left] {$x$};
+
+  % Draw F_t
+  \draw[{Latex[round]}-, draw=red!40!gray, ultra thick]
+  (\dv{P.F_t}) -- ++(0,\l) node[midway, right, black] {$F_t$};
+
+  % Draw M_t
+  \coordinate (M) at (\dv{P.M_t});
+  \coordinate (M1) at ($(M)+(310:.9mm)$);
+  \coordinate (M2) at ($(M)+(210:.9mm)$);
+  \draw pic[
+    draw=red!40!gray, -{Latex[round]}, ultra thick,
+    angle radius=8mm, angle eccentricity=1.25,
+  ]
+  {angle=M1--M--M2};
+  \node[left] at (M2) {$M_t$};
+
+  % p_t label
+  \draw[{Latex[round]}-, ultra thick, draw=yellow!40!black]
+    ($(\dv{P.p_t.b})+(.3mm,.15mm)$) -- ++(0,.7mm)
+    node[midway, right=1.5mm, fill=yellow!10, inner sep=.5mm, fill opacity=.8] {$p_t$}
+    node[midway, right=1.5mm,inner sep=.5mm] {$p_t$};
+
+  % Draw reacc
+  \begin{luacode*}
+    local connections = V.parametric.connections
+    local len=#connections
+
+    for i=1,len do
+      local dof = connections[i]["dof"]
+      local loc = connections[i]["l"]
+      if dof == 3 then
+        tex.sprint [[
+          \coordinate (M) at (c);
+          \coordinate (M1) at ($(M)+(310:.9mm)$);
+          \coordinate (M2) at ($(M)+(210:.9mm)$);
+          \draw pic[draw=green!40!gray, -{Latex[round]}, ultra thick, angle radius=8mm, angle eccentricity=1.25] {angle=M1--M--M2};
+          \node[left] at (M2) {$M_C$};
+          \draw[{Latex[round]}-, draw=green!40!gray, ultra thick] (c) -- ++(0,-\l) node[midway, right, black] {$F_C$};
+        ]]
+      else
+        tex.sprint (
+          [[\coordinate (F) at (]] .. loc .. [[);]] ..
+            [[\draw[{Latex[round]}-, draw=green!40!gray, ultra thick] (F) -- ++(0,-\l)]] ..
+            [[node[midway, right, black] {$F_]] .. loc:upper() .. [[$};]]
+        )
+      end
+    end
+  \end{luacode*}
+
+  \begin{scope}[on background layer]
+    \foreach \c in {O,A,B,C}{
+      \draw[dashed, gray] (\c) -- ++(0,1.75*\l);
+    }
+    \foreach \b/\e/\n in {O/A/1,A/B/2,B/C/3}{
+      \coordinate (T) at ($(\b)!.5!(\e)$);
+      \node at ($(T)+(0,1.5*\l)$) {$(\n)$};
+    }
+  \end{scope}
+\end{tikzpicture}
+\end{document}

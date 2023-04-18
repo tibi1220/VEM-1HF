@@ -1,6 +1,16 @@
 \subsubsection{Az egyensúlyi egyenletek felírása}
 
-Írjuk fel az $y$ és $z$ irányú egyensúlyi egyenleteket:
+% Az egyensúlyi egyenletek felírása előtt készítsük el a szerkezet 
+% szabadtestábráját
+
+\begin{figure}[H]
+  \centering
+  \includestandalone{szta}
+  \caption{A szerkezetet szabadtestábrája}
+  \label{fig:szta}
+\end{figure}
+
+Az $y$ és $z$ irányú egyensúlyi egyenleteket a \ref{fig:szta}. ábra alapján:
 \begin{align}
   \sum F_y = 0 \quad & \rightarrow \quad
   \F[+]{"O"}
@@ -50,15 +60,15 @@ tehát:
     \item $x \in (b; c)$,
   \end{enumerate}
 \end{multicols}
-Az egyes szakaszok igénybevételi függvénye tehát:
+Az egyes szakaszok hajlítónyomatéki igénybevételi függvénye:
 \begin{align}
-  M_{h1}(x) & =
+  \spec M_{h1}(x) & =
   \F[+]{1}[x]
   \F[-]{"O"}[x]
   \p[+]{1}[\frac{x^2}{2}]
   \text,
   \\
-  M_{h2}(x) & =
+  \spec M_{h2}(x) & =
   \F[+]{1}[x]
   \F[-]{"O"}[x]
   \F[+]{2}[(x - a)]
@@ -68,7 +78,7 @@ Az egyes szakaszok igénybevételi függvénye tehát:
   \p[+]{2}[ \frac{\left( x - a \right)^2 }{2}]
   \text,
   \\
-  M_{h3}(x) & =
+  \spec M_{h3}(x) & =
   \M[-]{"C"}
   \F[-]{"C"}[(c - x)]
   \p[+]{3}[\frac{\left( c - x \right)^2}{2}]
@@ -82,7 +92,7 @@ Ezen függvények ismeretében a differenciálegyenletek:
 Első szakasz: $x \in (0;a)$
 \begin{align}
   - \I{1} \E{1} w_1''(x) & =
-  M_{h1}(x)
+  \spec M_{h1}(x)
   \\
   - \I{1} \E{1} w_1''(x) & =
   \F[+]{1}[x]
@@ -115,7 +125,7 @@ Második szakasz: $x \in (a;b)$
 \par\vspace{-5mm}\KOMAoptions{fontsize=10pt}
 \begin{align}
   - \I{2} \E{2} w_2''(x) & =
-  M_{h2}(x)
+  \spec M_{h2}(x)
   \\
   - \I{2} \E{2} w_2''(x) & =
   \F[+]{1}[x]
@@ -164,7 +174,7 @@ Második szakasz: $x \in (a;b)$
 Harmadik szakasz: $x \in (b;c)$
 \begin{align}
   - \I{3} \E{3} w_3''(x) & =
-  M_{h3}(x)
+  \spec M_{h3}(x)
   \\
   - \I{3} \E{3} w_3''(x) & =
   \M[-]{"C"}
@@ -193,9 +203,16 @@ Harmadik szakasz: $x \in (b;c)$
   + C_{32}
 \end{align}
 
-A szögelfordulás függvény tehát:
+A szögelfordulás függvény a lehajlásfüggvény deriváltja, vagyis:
+\begin{equation}
+  \vartheta_i (x) = w'_i(x)
+  \text.
+  \label{eq:wtheta}
+\end{equation}
+
+A szögelfordulás függvények paraméteresen:
 \begin{align}
-  w'_1(x) & = \frac{1}{\I{1}\E{1}} \left[
+  \vartheta_1(x) & = \frac{1}{\I{1}\E{1}} \left[
     \F[-]{1}[\frac{x^2}{2}]
     \F[+]{"O"}[\frac{x^2}{2}]
     \p[-]{1}[\frac{x^3}{6}]
@@ -203,7 +220,7 @@ A szögelfordulás függvény tehát:
     \right]
   \text,
   \\[3mm]
-  w'_2(x) & = \frac{1}{\I{2}\E{2}} \left[
+  \vartheta_2(x) & = \frac{1}{\I{2}\E{2}} \left[
     \F[-]{1}[\frac{x^2}{2}]
     \F[+]{"O"}[\frac{x^2}{2}]
     \F[+]{2}[\left(-\frac{x^2}{2} + ax \right)]
@@ -215,11 +232,12 @@ A szögelfordulás függvény tehát:
     \right]
   \text,
   \\[3mm]
-  w'_3(x) & = \frac{1}{\I{3}\E{3}} \left[
+  \vartheta_3(x) & = \frac{1}{\I{3}\E{3}} \left[
     \M[+]{"C"}[x]
     \F[+]{"C"}[\left( cx - \frac{x^2}{2} \right)]
     \p[+]{3}[\left( -\frac{x c^2}{2} + \frac{cx^2}{2} - \frac{x^3}{6}\right)]
     + C_{31}
+    \vphantom{\frac{x}{y}}
     \right]
   \text.
 \end{align}
@@ -333,3 +351,4 @@ Helyettesítsük be az előbb kiszámolt konstansokat a keresett függvényekbe.
 \input{differences/sol-a/w}
 \input{differences/sol-a/phi}
 \input{differences/sol-a/M}
+\input{differences/sol-a/numeric}

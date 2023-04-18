@@ -279,7 +279,6 @@ return function(t)
       printMatrix(v.Ai, 1e-10)
     end,
 
-
     -- Optional force printing
     optionallyPrintF = function(pre, index, post)
       local forces = v.parametric.forces
@@ -296,7 +295,7 @@ return function(t)
           tex.print(pre .. 'F_' .. index .. post)
         elseif index == 'B' and code == 4 then
           tex.print(pre .. 'F_' .. index .. post)
-        elseif index == 'C' and (code == 3 or code == 4) then
+        elseif index == 'C' and (code == 1 or code == 2) then
           tex.print(pre .. 'F_' .. index .. post)
         end
       end

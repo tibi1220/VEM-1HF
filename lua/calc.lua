@@ -91,6 +91,31 @@ local function getM(theta, I, E)
   }
 end
 
+local function calculateNumeric(vMat, phiMat, MhMat, p)
+  local numeric = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }
+
+  for i = 1, 4 do
+    for k = 0, 4 do
+      local v, phi, Mh
+      if i == 1 or i == 2 then
+        v = vMat[1][k] or 0
+        phi = phiMat[1][k] or 0
+        Mh = MhMat[1][k] or 0
+      else
+        v = vMat[3][k] or 0
+        phi = phiMat[3][k] or 0
+        Mh = MhMat[3][k] or 0
+      end
+
+      numeric[1][i] = numeric[1][i] + p[i] ^ k * v
+      numeric[2][i] = numeric[2][i] + p[i] ^ k * phi
+      numeric[3][i] = numeric[3][i] + p[i] ^ k * Mh
+    end
+  end
+
+  return numeric
+end
+
 return function(config)
   local D = getData(config.code)
   D.name = config.name
@@ -497,6 +522,9 @@ return function(config)
     p_1 = p_1,
     p_2 = p_2,
     p_3 = p_3,
+
+    aNum = calculateNumeric(wMat, thetaMat, MMat, { 0, a, b, c }),
+    bNum = calculateNumeric(vMat, phiMat, MhMat, { 0, a, b, c }),
   }
 
   for k, v in pairs(M) do

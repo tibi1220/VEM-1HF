@@ -1,0 +1,52 @@
+A függvényértékek a nevezetes pontokban:
+\begin{center}
+\def\arraystretch{1.5}
+\begin{luacode*}
+  tex.sprint[[\begin{tabular}{c|cccc|}]]
+  tex.sprint[[& $x = 0$ & $x = a$ & $x = b$ & $x = c$ \\\hline]]
+
+  tex.sprint [[$v(x)$]]
+
+  for i=1,4 do
+    local num = V.bNum[1][i]
+    tex.sprint [[&]]
+    if math.abs(num) < 1e-10 then
+      tex.sprint [[$0\,\mathrm{m}$]]
+    else
+      H.printSIDirect { value = num, unit="m", dec=6 }
+    end
+  end
+
+  tex.sprint [[\\]]
+
+  tex.sprint [[$\varphi(x)$]]
+
+  for i=1,4 do
+    local num = V.bNum[2][i]
+    tex.sprint [[&]]
+    if math.abs(num) < 1e-10 then
+      tex.sprint [[$0\,\mathrm{rad}$]]
+    else
+      H.printSIDirect { value = num, unit="rad", dec=6 }
+    end
+  end
+
+  tex.sprint [[\\]]
+
+  tex.sprint [[$M_h(x)$]]
+
+  for i=1,4 do
+    local num = V.bNum[3][i]
+    tex.sprint [[&]]
+    if math.abs(num) < 1e-10 then
+      tex.sprint [[$0\,\mathrm{Nm}$]]
+    else
+      H.printSIDirect { value = num, unit="Nm", dec=3 }
+    end
+  end
+
+  tex.sprint [[\\\hline]]
+
+  tex.sprint[[\end{tabular}]]
+\end{luacode*}
+\end{center}
