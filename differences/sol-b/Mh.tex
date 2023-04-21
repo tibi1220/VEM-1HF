@@ -4,7 +4,7 @@
 \begin{luacode*}
   tex.sprint [[\begin{alignat}{9}]]
   for i=1,3 do
-    tex.sprint("M_{h," .. i .. "}(x)&=\\,")
+    tex.sprint("M_{h" .. i .. "}(x)&=\\,")
 
     local MhMat = V.MhMat
 

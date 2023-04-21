@@ -237,8 +237,8 @@ akkor megkaphatjuk a terhelési vektort numerikusan:
 \subsubsection{Keresett függvények meghatározása}
 
 A lehajlás- és szögelfordulás függvények meghatározásához elemeken belüli
-interpolációt kell alkalmaznunk. A formafüggvények alakja a globális
-koordináta-rendszerben:
+interpolációt kell alkalmaznunk. A formafüggvények alakja a lokális $(0; L_i)$
+koordináta-rendszerben, ahol $L_i$ az egyes gerendaelem hossza:
 \begin{equation}
   \renewcommand\a{\left(\sfrac{x}{L_i}\right)}
   \rvec N(x) =
@@ -254,8 +254,8 @@ koordináta-rendszerben:
 
 Tetszőleges elem lehajlásfüggvénye előállítható az alábbi módon:
 \begin{equation}
-  v_i(x) = \rvec N(x)^{\mathsf T} \rvec U_i
-  \text.
+  v_i(x) = \rvec N^{\mathsf T}(x - x_i) \rvec U_i
+  \text{, ahol } x_i \text{ az egyes elem kezdőpontja.}
   \label{eq:v-param}
 \end{equation}
 
