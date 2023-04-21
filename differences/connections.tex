@@ -35,7 +35,7 @@
 % \end{noindent}
 az alábbi peremfeltételeket kapjuk:
 \begin{equation}
-	% \begin{noindent}
+  % \begin{noindent}
   \begin{luacode*}
     local notFree = V.parametric.notFree
 
@@ -62,11 +62,11 @@ Ezen adatok ismeretében már fel tudjuk írni a kondenzált merevségi egyenlet
 melyet úgy kapunk meg, hogy a  gátolt szabadsági fokokhoz tartozó sorokat és
 oszlopokat töröljük az eredeti, globális merevségi egyenletből:
 \begin{equation}
-	\sifigures{3} \sisci{}
-	\underbrace{\begin{bmatrix}
-			\directlua{H.printKkond()}
-		\end{bmatrix}}_{\widehat{\rmat K}}
-	% \begin{noindent}
+  \sifigures{3} \sisci{}
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printKkond()}
+    \end{bmatrix}}_{\widehat{\rmat K}}
+  % \begin{noindent}
   \begin{luacode*}
     tex.sprint [[\underbrace{\begin{bmatrix}]]
     local free = V.parametric.free
@@ -84,11 +84,11 @@ oszlopokat töröljük az eredeti, globális merevségi egyenletből:
     tex.sprint [[\end{bmatrix}}_{\widehat{\rvec U}}]]
   \end{luacode*}
   % \end{noindent}
-	=
-	\siplaces{2} \sifix{}
-	\underbrace{\begin{bmatrix}
-			\directlua{H.printFkond()}
-		\end{bmatrix}}_{\widehat{\rvec F}}
-	\text.
-	\label{eq:cond}
+  =
+  \siplaces{2} \sifix{}
+  \underbrace{\begin{bmatrix}
+      \directlua{H.printFkond()}
+    \end{bmatrix}}_{\widehat{\rvec F}}
+  \text.
+  \label{eq:cond}
 \end{equation}
