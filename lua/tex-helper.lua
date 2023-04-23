@@ -129,7 +129,7 @@ return function(t)
       local F = figure.forces.F
       local M = figure.forces.M
       local free = figure.free
-      local letters = { 'A', 'B', 'C', 'D' }
+      local letters = { 'O', 'A', 'B', 'C' }
 
       tex.sprint [[\begin{bmatrix}]]
       for i = 0, 3 do
